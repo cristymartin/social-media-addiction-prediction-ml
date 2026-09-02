@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Social Media Addiction Detection System</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+
+<nav>
+
+    <div class="logo">
+
+        <i class="fa-solid fa-brain"></i>
+
+        <span>SMADS</span>
+
+    </div>
+
+    <ul>
+
+        <li><a href="#">Home</a></li>
+
+        <li><a href="#">Prediction</a></li>
+
+        <li><a href="#">About</a></li>
+
+        <li><a href="#">Contact</a></li>
+
+    </ul>
+
+</nav>
+
+<!-- ===================== HEADER ===================== -->
+
+<header>
+
+    <h1>
+
+        Social Media Addiction Detection
+
+        &
+
+        Wellness Recommendation System
+
+    </h1>
+
+    <p>
+
+        AI Powered Prediction using Random Forest Machine Learning Algorithm
+
+    </p>
+
+</header>
+
+<!-- ===================== MAIN CONTAINER ===================== -->
+
+<div class="container">
+
+<form method="POST">
+
+{% csrf_token %}
+
+<!-- ===================== PERSONAL INFORMATION ===================== -->
+
+<div class="card">
+
+<h2>
+
+<i class="fa-solid fa-user"></i>
+
+Personal Information
+
+</h2>
+
+<div class="grid">
+
+<div class="input-box">
+
+<label>Age</label>
+
+<input
+type="number"
+name="age"
+placeholder="Enter Age"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Gender</label>
+
+<select name="gender">
+
+<option>Male</option>
+
+<option>Female</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+
+<label>Occupation</label>
+
+<select name="occupation">
+
+<option>Student</option>
+
+<option>Employee</option>
+
+<option>Self-employed</option>
+
+<option>Business</option>
+
+<option>Other</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+
+<label>Region</label>
+
+<select name="region">
+
+<option>Asia</option>
+
+<option>Europe</option>
+
+<option>North America</option>
+
+<option>South America</option>
+
+<option>Africa</option>
+
+<option>Australia</option>
+
+</select>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===================== SOCIAL MEDIA USAGE ===================== -->
+
+<div class="card">
+
+<h2>
+
+<i class="fa-solid fa-mobile-screen-button"></i>
+
+Social Media Usage
+
+</h2>
+
+<div class="grid">
+
+<div class="input-box">
+
+<label>Most Used Platform</label>
+
+<select name="most_used_platform">
+
+<option>Instagram</option>
+
+<option>Facebook</option>
+
+<option>WhatsApp</option>
+
+<option>YouTube</option>
+
+<option>Snapchat</option>
+
+<option>Twitter</option>
+
+<option>Telegram</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+
+<label>Platforms Used Count</label>
+
+<input
+type="number"
+name="platforms_used_count"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Daily Screen Hours</label>
+
+<input
+type="number"
+step="0.1"
+name="daily_screen_hours"
+required>
+
+</div>
+
+
+
+<div class="input-box">
+
+<label>Night Time Use</label>
+
+<select name="night_time_use">
+
+<option value="1">Yes</option>
+
+<option value="0">No</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+
+<label>Minutes to First Check After Waking</label>
+
+<input
+type="number"
+name="minutes_to_first_check_after_waking"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Primary Purpose</label>
+
+<select name="primary_purpose">
+
+<option>Entertainment</option>
+
+<option>Education</option>
+
+<option>Communication</option>
+
+<option>Business</option>
+
+<option>Gaming</option>
+
+<option>News</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+
+<label>Average Sleep Hours</label>
+
+<input
+type="number"
+step="0.1"
+name="avg_sleep_hours"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Uses Screen Time Limits</label>
+
+<select name="uses_screen_time_limits">
+
+<option>Yes</option>
+
+<option>No</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+
+<label>Attempted Digital Detox</label>
+
+<select name="attempted_digital_detox">
+
+<option value="1">Yes</option>
+
+<option value="0">No</option>
+
+</select>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================== Mental Health ======================= -->
+
+<div class="card">
+
+<h2>
+
+<i class="fa-solid fa-heart-pulse"></i>
+
+Mental Health Assessment
+
+</h2>
+
+<div class="grid">
+
+<div class="input-box">
+
+<label>Anxiety Score (0-27)</label>
+
+<input
+type="number"
+min="0"
+max="27"
+name="anxiety_score_0to27"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Low Mood Score (0-27)</label>
+
+<input
+type="number"
+min="0"
+max="27"
+name="low_mood_score_0to27"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Life Satisfaction (1-10)</label>
+
+<input
+type="number"
+min="1"
+max="10"
+name="life_satisfaction_1to10"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Loneliness (1-10)</label>
+
+<input
+type="number"
+min="1"
+max="10"
+name="loneliness_1to10"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Self Esteem (1-10)</label>
+
+<input
+type="number"
+min="1"
+max="10"
+name="self_esteem_1to10"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>FOMO (1-10)</label>
+
+<input
+type="number"
+min="1"
+max="10"
+name="fomo_1to10"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Social Comparison (1-10)</label>
+
+<input
+type="number"
+min="1"
+max="10"
+name="social_comparison_1to10"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Physical Activity (Days/Week)</label>
+
+<input
+type="number"
+min="0"
+max="7"
+name="physical_activity_days_per_week"
+required>
+
+</div>
+
+<div class="input-box">
+
+<label>Seeks Mental Health Support</label>
+
+<select name="seeks_mental_health_support">
+
+<option>Yes</option>
+
+<option>No</option>
+
+</select>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================== Predict Button ======================= -->
+
+<div class="button-area">
+
+<button type="submit" class="predict-btn">
+
+<i class="fa-solid fa-brain"></i>
+
+Predict Addiction
+
+</button>
+
+<button type="reset" class="reset-btn">
+
+<i class="fa-solid fa-rotate-left"></i>
+
+Reset
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+<footer>
+
+<p>
+
+© 2026 Social Media Addiction Detection & Wellness Recommendation System
+
+</p>
+
+<p>
+
+Developed using Django • Random Forest • Machine Learning
+
+</p>
+
+</footer>
+
+</body>
+
+</html>
