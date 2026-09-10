@@ -1,0 +1,555 @@
+/* =========================================
+   GENERAL
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #f4f7fb;
+
+    color: #222;
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+header {
+
+    background: #ffffff;
+
+    padding: 20px 7%;
+
+    border-bottom: 1px solid #e5e5e5;
+
+}
+
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+
+.logo h2 {
+
+    font-size: 28px;
+
+    color: #2563eb;
+
+}
+
+
+.logo span {
+
+    color: #666;
+
+    font-size: 14px;
+
+}
+
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.container {
+
+    width: 90%;
+
+    max-width: 1000px;
+
+    margin: 40px auto;
+
+}
+
+
+.page-title {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+
+}
+
+
+.page-title h1 {
+
+    font-size: 34px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.page-title p {
+
+    color: #666;
+
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.card {
+
+    background: #ffffff;
+
+    padding: 30px;
+
+    margin-bottom: 25px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.06);
+
+}
+
+
+.card h2 {
+
+    margin-bottom: 20px;
+
+    color: #1e3a8a;
+
+}
+
+
+.description {
+
+    color: #666;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+
+}
+
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.form-group label {
+
+    margin-bottom: 7px;
+
+    font-weight: bold;
+
+}
+
+
+input,
+select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    background: #fff;
+
+}
+
+
+input:focus,
+select:focus {
+
+    outline: none;
+
+    border-color: #2563eb;
+
+}
+
+
+/* =========================================
+   QUESTIONS
+========================================= */
+
+.question {
+
+    margin-bottom: 22px;
+
+    padding-bottom: 18px;
+
+    border-bottom: 1px solid #eeeeee;
+
+}
+
+
+.question label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================
+   CALCULATED SCORE
+========================================= */
+
+.calculated-score {
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    background: #eff6ff;
+
+    border-radius: 8px;
+
+    font-size: 18px;
+
+}
+
+
+.calculated-score strong {
+
+    color: #2563eb;
+
+}
+
+
+/* =========================================
+   SUBMIT
+========================================= */
+
+.submit-section {
+
+    text-align: center;
+
+    margin: 35px 0;
+
+}
+
+
+.predict-button {
+
+    border: none;
+
+    padding: 15px 35px;
+
+    border-radius: 10px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.predict-button:hover {
+
+    background: #1d4ed8;
+
+}
+
+
+/* =========================================
+   RESULT PAGE
+========================================= */
+
+.result-container {
+
+    width: 90%;
+
+    max-width: 900px;
+
+    margin: 50px auto;
+
+}
+
+
+.result-card {
+
+    background: white;
+
+    padding: 35px;
+
+    margin-bottom: 25px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.06);
+
+}
+
+
+.result-card h1,
+.result-card h2 {
+
+    margin-bottom: 15px;
+
+    color: #1e3a8a;
+
+}
+
+
+.result-description {
+
+    color: #666;
+
+}
+
+
+/* =========================================
+   PREDICTION BOX
+========================================= */
+
+.prediction-box {
+
+    text-align: center;
+
+    padding: 30px;
+
+    margin-top: 25px;
+
+    border-radius: 12px;
+
+    background: #f8fafc;
+
+}
+
+
+.prediction-box p {
+
+    color: #666;
+
+}
+
+
+.prediction-box h2 {
+
+    font-size: 42px;
+
+    margin-top: 10px;
+
+}
+
+
+.prediction-box h2.low {
+
+    color: #16a34a;
+
+}
+
+
+.prediction-box h2.moderate {
+
+    color: #d97706;
+
+}
+
+
+.prediction-box h2.high {
+
+    color: #dc2626;
+
+}
+
+
+/* =========================================
+   SCORE GRID
+========================================= */
+
+.score-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+
+}
+
+
+.score-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 18px;
+
+    background: #f8fafc;
+
+    border-radius: 10px;
+
+}
+
+
+.score-item strong {
+
+    color: #2563eb;
+
+}
+
+
+/* =========================================
+   RECOMMENDATIONS
+========================================= */
+
+.recommendation-list {
+
+    padding-left: 20px;
+
+}
+
+
+.recommendation-list li {
+
+    margin-bottom: 12px;
+
+}
+
+
+/* =========================================
+   DISCLAIMER
+========================================= */
+
+.disclaimer {
+
+    background: #fff7ed;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    margin-bottom: 25px;
+
+    color: #7c2d12;
+
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.back-button {
+
+    display: block;
+
+    width: fit-content;
+
+    margin: 20px auto 50px;
+
+    padding: 12px 25px;
+
+    background: #2563eb;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+}
+
+
+.back-button:hover {
+
+    background: #1d4ed8;
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .form-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .score-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .logo {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+
+    .page-title h1 {
+
+        font-size: 26px;
+
+    }
+
+
+    .card {
+
+        padding: 20px;
+
+    }
+
+}

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction History</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        nav {
+            background: #1f2937;
+            padding: 18px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #e9edf3;
+            padding: 14px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            white-space: nowrap;
+        }
+
+        .high {
+            color: red;
+            font-weight: bold;
+        }
+
+        .moderate {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .low {
+            color: green;
+            font-weight: bold;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 22px;
+            margin: 5px;
+            background: #1f2937;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <a href="/">Home</a>
+
+    <a href="/history">History</a>
+
+    <a href="/progress">Progress</a>
+
+</nav>
+
+
+<div class="container">
+
+    <h1>📊 Prediction History</h1>
+
+    <p class="subtitle">
+
+        View your previous social media addiction assessments
+
+    </p>
+
+
+    <div class="card">
+
+        {% if predictions %}
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Date & Time</th>
+
+                    <th>Addiction Level</th>
+
+                    <th>Screen Time</th>
+
+                    <th>Sleep Hours</th>
+
+                    <th>Anxiety</th>
+
+                    <th>Low Mood</th>
+
+                    <th>Life Satisfaction</th>
+
+                    <th>Loneliness</th>
+
+                    <th>Self Esteem</th>
+
+                    <th>FOMO</th>
+
+                    <th>Social Comparison</th>
+
+                    <th>Physical Activity</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for p in predictions %}
+
+                <tr>
+
+                    <td>
+                        {{ p["date_time"] }}
+                    </td>
+
+
+                    <td class="{{ p['addiction_level']|lower }}">
+
+                        {{ p["addiction_level"] }}
+
+                    </td>
+
+
+                    <td>
+                        {{ p["daily_screen_hours"] }} hrs
+                    </td>
+
+
+                    <td>
+                        {{ p["avg_sleep_hours"] }} hrs
+                    </td>
+
+
+                    <td>
+                        {{ p["anxiety_score"] }}
+                    </td>
+
+
+                    <td>
+                        {{ p["low_mood_score"] }}
+                    </td>
+
+
+                    <td>
+                        {{ p["life_satisfaction"] }}
+                    </td>
+
+
+                    <td>
+                        {{ p["loneliness"] }}
+                    </td>
+
+
+                    <td>
+                        {{ p["self_esteem"] }}
+                    </td>
+
+
+                    <td>
+                        {{ p["fomo_score"] }}
+                    </td>
+
+
+                    <td>
+                        {{ p["social_comparison"] }}
+                    </td>
+
+
+                    <td>
+                        {{ p["physical_activity_days"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+
+        {% else %}
+
+        <div class="empty">
+
+            <h2>No prediction history</h2>
+
+            <p>
+                Complete the questionnaire to create your first prediction.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="buttons">
+
+        <a href="/progress" class="button">
+            📈 View My Progress
+        </a>
+
+        <a href="/" class="button">
+            📝 Take Assessment
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
