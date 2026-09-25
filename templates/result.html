@@ -4,347 +4,14 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SMADS - Prediction Result</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <style>
+    <title>SMADS - Assessment Result</title>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #333;
-        }
-
-        /* HEADER */
-
-        header {
-            background: #1f3c88;
-            color: white;
-            padding: 18px 40px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            flex-wrap: wrap;
-        }
-
-        .logo h2 {
-            margin-bottom: 3px;
-        }
-
-        .logo span {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-
-        nav {
-            display: flex;
-            gap: 20px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 15px;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-
-        /* MAIN */
-
-        .container {
-            width: 90%;
-            max-width: 950px;
-            margin: 40px auto;
-        }
-
-
-        .page-title {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .page-title h1 {
-            color: #1f3c88;
-            margin-bottom: 8px;
-        }
-
-        .page-title p {
-            color: #666;
-        }
-
-
-        /* RESULT CARD */
-
-        .result-card {
-            background: white;
-            border-radius: 14px;
-            padding: 35px;
-
-            text-align: center;
-
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-
-            margin-bottom: 25px;
-        }
-
-
-        .result-card h2 {
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-
-        .level {
-            display: inline-block;
-
-            padding: 15px 35px;
-
-            border-radius: 30px;
-
-            font-size: 28px;
-            font-weight: bold;
-
-            margin-bottom: 15px;
-        }
-
-
-        /* ADDICTION LEVEL COLORS */
-
-        .low {
-            background: #d9f7df;
-            color: #16833b;
-        }
-
-        .moderate {
-            background: #fff1c7;
-            color: #9a6b00;
-        }
-
-        .high {
-            background: #ffd9d9;
-            color: #c62828;
-        }
-
-
-        .result-description {
-            color: #666;
-            margin-top: 10px;
-        }
-
-
-        /* SCORE CARD */
-
-        .card {
-            background: white;
-
-            padding: 25px;
-
-            border-radius: 12px;
-
-            margin-bottom: 25px;
-
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
-        }
-
-
-        .card h2 {
-            color: #1f3c88;
-
-            border-bottom: 2px solid #e5eaf5;
-
-            padding-bottom: 10px;
-
-            margin-bottom: 20px;
-        }
-
-
-        /* SCORES */
-
-        .score-grid {
-            display: grid;
-
-            grid-template-columns: repeat(2, 1fr);
-
-            gap: 15px;
-        }
-
-
-        .score-item {
-            background: #f7f9fd;
-
-            padding: 15px;
-
-            border-radius: 8px;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-        }
-
-
-        .score-name {
-            font-weight: bold;
-        }
-
-
-        .score-value {
-            font-size: 20px;
-
-            font-weight: bold;
-
-            color: #1f3c88;
-        }
-
-
-        /* RECOMMENDATIONS */
-
-        .recommendation {
-            background: #f7f9fd;
-
-            padding: 15px;
-
-            border-left: 5px solid #1f3c88;
-
-            border-radius: 6px;
-
-            margin-bottom: 12px;
-        }
-
-
-        .recommendation:last-child {
-            margin-bottom: 0;
-        }
-
-
-        /* DISCLAIMER */
-
-        .disclaimer {
-            background: #fff8e6;
-
-            border-left: 5px solid #f0ad00;
-
-            padding: 18px;
-
-            margin-bottom: 25px;
-
-            border-radius: 6px;
-
-            color: #665000;
-        }
-
-
-        /* BUTTONS */
-
-        .result-buttons {
-            display: flex;
-
-            justify-content: center;
-
-            gap: 15px;
-
-            flex-wrap: wrap;
-
-            margin-top: 30px;
-        }
-
-
-        .back-button {
-            display: inline-block;
-
-            background: #1f3c88;
-
-            color: white;
-
-            text-decoration: none;
-
-            padding: 12px 22px;
-
-            border-radius: 7px;
-
-            font-weight: bold;
-        }
-
-
-        .back-button:hover {
-            background: #162d68;
-        }
-
-
-        .secondary-button {
-            background: #555;
-        }
-
-
-        .secondary-button:hover {
-            background: #333;
-        }
-
-
-        /* FOOTER */
-
-        footer {
-            text-align: center;
-
-            background: #1f3c88;
-
-            color: white;
-
-            padding: 18px;
-
-            margin-top: 40px;
-
-            font-size: 14px;
-        }
-
-
-        /* MOBILE */
-
-        @media (max-width: 700px) {
-
-            header {
-                padding: 18px 20px;
-
-                flex-direction: column;
-
-                gap: 15px;
-
-                text-align: center;
-            }
-
-            nav {
-                gap: 15px;
-            }
-
-            .score-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .result-card {
-                padding: 25px 15px;
-            }
-
-            .container {
-                width: 94%;
-            }
-
-        }
-
-    </style>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -352,272 +19,469 @@
 <body>
 
 
+<!-- ========================================================= -->
 <!-- HEADER -->
+<!-- ========================================================= -->
 
-<header>
+<header class="main-header">
 
-    <div class="logo">
+    <div class="header-content">
 
-        <h2>SMADS</h2>
+        <div class="logo">
+            SMADS
+        </div>
 
-        <span>
-            Social Media Addiction Detection System
-        </span>
+        <nav>
+
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('assessment') }}">
+                Assessment
+            </a>
+
+            <a href="{{ url_for('history') }}">
+                History
+            </a>
+
+            <a href="{{ url_for('progress') }}">
+                Progress
+            </a>
+
+        </nav>
 
     </div>
-
-
-    <nav>
-
-        <a href="/">Home</a>
-
-        <a href="/history">History</a>
-
-        <a href="/progress">Progress</a>
-
-    </nav>
 
 </header>
 
 
 
+<!-- ========================================================= -->
 <!-- MAIN CONTENT -->
+<!-- ========================================================= -->
 
-<div class="container">
+<main class="result-container">
 
 
-    <div class="page-title">
+    <!-- ===================================================== -->
+    <!-- PAGE HEADER -->
+    <!-- ===================================================== -->
 
-        <h1>Prediction Result</h1>
+    <div class="result-page-header">
+
+        <div class="result-eyebrow">
+            SMADS • ASSESSMENT RESULT
+        </div>
+
+        <h1>
+            Your Digital Wellbeing Assessment
+        </h1>
 
         <p>
-            Your social media addiction assessment has been completed.
+            Your responses have been analyzed using the
+            SMADS machine learning prediction model.
         </p>
 
     </div>
 
 
 
-    <!-- ADDICTION RESULT -->
+    <!-- ===================================================== -->
+    <!-- MAIN RESULT CARD -->
+    <!-- ===================================================== -->
 
-    <div class="result-card">
+    <section class="prediction-card">
 
-        <h2>Your Addiction Level</h2>
+        <div class="prediction-left">
 
+            <div class="prediction-label">
+                PREDICTED SOCIAL MEDIA ADDICTION LEVEL
+            </div>
 
-        <div class="level {{ addiction_level|lower }}">
+            <div class="prediction-level
+                {% if addiction_level == 'Low' %}
+                    level-low
+                {% elif addiction_level == 'Moderate' %}
+                    level-moderate
+                {% else %}
+                    level-high
+                {% endif %}">
 
-            {{ addiction_level }}
+                {{ addiction_level }}
+
+            </div>
+
+            <p class="prediction-description">
+
+                {% if addiction_level == 'Low' %}
+
+                    Your assessment indicates relatively
+                    balanced social media usage patterns.
+
+                {% elif addiction_level == 'Moderate' %}
+
+                    Your assessment indicates some patterns
+                    of increased social media use that may
+                    benefit from healthier digital habits.
+
+                {% else %}
+
+                    Your assessment indicates a high level
+                    of social media usage patterns. Consider
+                    following the digital wellbeing suggestions
+                    below.
+
+                {% endif %}
+
+            </p>
 
         </div>
 
 
-        {% if addiction_level == "Low" %}
+        <!-- CONFIDENCE -->
 
-            <p class="result-description">
-                Your assessment indicates a low level of social media addiction.
-                Continue maintaining healthy and balanced digital habits.
-            </p>
+        <div class="confidence-box">
 
-        {% elif addiction_level == "Moderate" %}
+            <div class="confidence-title">
+                Prediction Confidence
+            </div>
 
-            <p class="result-description">
-                Your assessment indicates a moderate level of social media
-                addiction. Consider reducing unnecessary social media usage
-                and maintaining a healthier daily routine.
-            </p>
+            <div class="confidence-value">
 
-        {% elif addiction_level == "High" %}
+                {% if confidence is not none %}
+                    {{ confidence }}%
+                {% else %}
+                    N/A
+                {% endif %}
 
-            <p class="result-description">
-                Your assessment indicates a high level of social media
-                addiction. Consider reducing excessive usage and improving
-                your sleep, physical activity and offline social interactions.
-            </p>
-
-        {% endif %}
-
-    </div>
+            </div>
 
 
+            {% if confidence is not none %}
 
-    <!-- SCORES -->
+            <div class="confidence-bar">
 
-    <div class="card">
+                <div class="confidence-fill"
+                     style="width: {{ confidence }}%;">
+                </div>
 
-        <h2>Assessment Scores</h2>
+            </div>
+
+            <div class="confidence-note">
+                Model prediction confidence
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- RESULT EXPLANATION -->
+    <!-- ===================================================== -->
+
+    <section class="result-section">
+
+        <div class="section-title">
+
+            <div class="section-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <h2>
+                    Assessment Summary
+                </h2>
+
+                <p>
+                    Key factors recorded during your assessment.
+                </p>
+
+            </div>
+
+        </div>
+
 
 
         <div class="score-grid">
 
 
-            <div class="score-item">
+            <!-- ANXIETY -->
 
-                <span class="score-name">
-                    Anxiety Score
-                </span>
+            <div class="score-card">
 
-                <span class="score-value">
-                    {{ scores["anxiety_score_0to27"] }}/27
-                </span>
+                <div class="score-card-title">
+                    Anxiety
+                </div>
 
-            </div>
+                <div class="score-value">
+                    {{ scores["anxiety_score_0to27"] }}
+                    <span>/ 27</span>
+                </div>
 
-
-            <div class="score-item">
-
-                <span class="score-name">
-                    Low Mood Score
-                </span>
-
-                <span class="score-value">
-                    {{ scores["low_mood_score_0to27"] }}/27
-                </span>
+                <div class="score-description">
+                    Anxiety-related responses
+                </div>
 
             </div>
 
 
-            <div class="score-item">
 
-                <span class="score-name">
+            <!-- LOW MOOD -->
+
+            <div class="score-card">
+
+                <div class="score-card-title">
+                    Low Mood
+                </div>
+
+                <div class="score-value">
+                    {{ scores["low_mood_score_0to27"] }}
+                    <span>/ 27</span>
+                </div>
+
+                <div class="score-description">
+                    Recent low-mood responses
+                </div>
+
+            </div>
+
+
+
+            <!-- LIFE SATISFACTION -->
+
+            <div class="score-card">
+
+                <div class="score-card-title">
                     Life Satisfaction
-                </span>
+                </div>
 
-                <span class="score-value">
-                    {{ scores["life_satisfaction_1to10"] }}/10
-                </span>
+                <div class="score-value">
+                    {{ scores["life_satisfaction_1to10"] }}
+                    <span>/ 10</span>
+                </div>
+
+                <div class="score-description">
+                    Overall life satisfaction
+                </div>
 
             </div>
 
 
-            <div class="score-item">
 
-                <span class="score-name">
+            <!-- LONELINESS -->
+
+            <div class="score-card">
+
+                <div class="score-card-title">
                     Loneliness
-                </span>
+                </div>
 
-                <span class="score-value">
-                    {{ scores["loneliness_1to10"] }}/10
-                </span>
+                <div class="score-value">
+                    {{ scores["loneliness_1to10"] }}
+                    <span>/ 10</span>
+                </div>
+
+                <div class="score-description">
+                    Reported loneliness level
+                </div>
 
             </div>
 
 
-            <div class="score-item">
 
-                <span class="score-name">
+            <!-- SELF ESTEEM -->
+
+            <div class="score-card">
+
+                <div class="score-card-title">
                     Self-Esteem
-                </span>
+                </div>
 
-                <span class="score-value">
-                    {{ scores["self_esteem_1to10"] }}/10
-                </span>
+                <div class="score-value">
+                    {{ scores["self_esteem_1to10"] }}
+                    <span>/ 10</span>
+                </div>
+
+                <div class="score-description">
+                    Reported self-esteem
+                </div>
 
             </div>
 
 
-            <div class="score-item">
 
-                <span class="score-name">
+            <!-- FOMO -->
+
+            <div class="score-card">
+
+                <div class="score-card-title">
                     FOMO
-                </span>
+                </div>
 
-                <span class="score-value">
-                    {{ scores["fomo_1to10"] }}/10
-                </span>
+                <div class="score-value">
+                    {{ scores["fomo_1to10"] }}
+                    <span>/ 10</span>
+                </div>
+
+                <div class="score-description">
+                    Fear of missing out
+                </div>
 
             </div>
 
 
-            <div class="score-item">
 
-                <span class="score-name">
+            <!-- SOCIAL COMPARISON -->
+
+            <div class="score-card">
+
+                <div class="score-card-title">
                     Social Comparison
-                </span>
+                </div>
 
-                <span class="score-value">
-                    {{ scores["social_comparison_1to10"] }}/10
-                </span>
+                <div class="score-value">
+                    {{ scores["social_comparison_1to10"] }}
+                    <span>/ 10</span>
+                </div>
+
+                <div class="score-description">
+                    Comparison with others online
+                </div>
 
             </div>
-
 
         </div>
 
-    </div>
+    </section>
 
 
 
+    <!-- ===================================================== -->
     <!-- RECOMMENDATIONS -->
+    <!-- ===================================================== -->
 
-    <div class="card">
+    <section class="recommendation-section">
 
-        <h2>Wellness Recommendations</h2>
+        <div class="section-title">
 
+            <div class="section-icon recommendation-icon">
+                ✦
+            </div>
 
-        {% for recommendation in recommendations %}
+            <div>
 
-            <div class="recommendation">
+                <h2>
+                    Digital Wellbeing Recommendations
+                </h2>
 
-                {{ recommendation }}
+                <p>
+                    Suggestions based on your assessment
+                    and predicted addiction level.
+                </p>
 
             </div>
 
-        {% endfor %}
-
-    </div>
+        </div>
 
 
 
+        <div class="recommendation-grid">
+
+            {% for recommendation in recommendations %}
+
+            <div class="recommendation-card">
+
+                <div class="recommendation-number">
+                    {{ loop.index }}
+                </div>
+
+                <div class="recommendation-text">
+                    {{ recommendation }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- NEXT STEPS -->
+    <!-- ===================================================== -->
+
+    <section class="next-step-section">
+
+        <div>
+
+            <h2>
+                Track Your Digital Wellbeing
+            </h2>
+
+            <p>
+                Complete future assessments to compare your
+                results and monitor changes in your digital habits.
+            </p>
+
+        </div>
+
+
+        <div class="result-actions">
+
+            <a href="{{ url_for('assessment') }}"
+               class="secondary-button">
+
+                Take Assessment Again
+
+            </a>
+
+
+            <a href="{{ url_for('history') }}"
+               class="primary-button">
+
+                View History
+
+            </a>
+
+
+            <a href="{{ url_for('progress') }}"
+               class="primary-button">
+
+                View Progress
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
     <!-- DISCLAIMER -->
+    <!-- ===================================================== -->
 
-    <div class="disclaimer">
+    <div class="result-disclaimer">
 
-        <strong>Important:</strong>
+        <strong>Note:</strong>
 
-        This system provides an AI/ML-based assessment for educational
-        and wellness purposes. The prediction is not a medical diagnosis.
-        If you are experiencing significant emotional or mental health
-        difficulties, consider speaking with a qualified professional.
-
-    </div>
-
-
-
-    <!-- BUTTONS -->
-
-    <div class="result-buttons">
-
-        <a href="/" class="back-button">
-            ← Take Assessment Again
-        </a>
-
-
-        <a href="/history" class="back-button">
-            📋 View Prediction History
-        </a>
-
-
-        <a href="/progress" class="back-button">
-            📈 Check My Progress
-        </a>
+        This result is a machine-learning based assessment
+        of reported social media usage patterns. It is not
+        a medical diagnosis.
 
     </div>
 
 
-</div>
-
-
-
-<!-- FOOTER -->
-
-<footer>
-
-    <p>
-        SMADS – Social Media Addiction Detection & Wellness Recommendation System
-    </p>
-
-</footer>
+</main>
 
 
 </body>

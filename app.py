@@ -60,7 +60,9 @@ model = joblib.load(MODEL_PATH)
 
 if os.path.exists(MAPPING_PATH):
 
-    label_mapping = joblib.load(MAPPING_PATH)
+    label_mapping = joblib.load(
+        MAPPING_PATH
+    )
 
 else:
 
@@ -77,7 +79,9 @@ else:
 
 def init_db():
 
-    conn = sqlite3.connect(DATABASE_PATH)
+    conn = sqlite3.connect(
+        DATABASE_PATH
+    )
 
     cursor = conn.cursor()
 
@@ -123,108 +127,368 @@ init_db()
 
 
 # ============================================================
-# WELLNESS RECOMMENDATIONS
+# DIGITAL WELLBEING RECOMMENDATIONS
 # ============================================================
 
-def get_recommendation(addiction_level, scores):
-
-    anxiety = scores["anxiety_score_0to27"]
-
-    low_mood = scores["low_mood_score_0to27"]
-
-    life_satisfaction = scores["life_satisfaction_1to10"]
-
-    loneliness = scores["loneliness_1to10"]
-
-    self_esteem = scores["self_esteem_1to10"]
-
-    fomo = scores["fomo_1to10"]
-
-    social_comparison = scores["social_comparison_1to10"]
+def get_recommendations(
+    addiction_level,
+    screen_hours,
+    sleep_hours,
+    physical_activity,
+    anxiety_score,
+    low_mood_score,
+    life_satisfaction,
+    loneliness,
+    self_esteem,
+    fomo,
+    social_comparison
+):
 
     recommendations = []
 
 
-    # Addiction level recommendation
-    if addiction_level == "High":
+    # ========================================================
+    # LOW ADDICTION
+    # ========================================================
 
-        recommendations.append(
-            "Reduce excessive social media usage and set daily screen-time limits."
-        )
-
-    elif addiction_level == "Moderate":
-
-        recommendations.append(
-            "Try to maintain a balanced social media routine and reduce unnecessary usage."
-        )
-
-    else:
+    if addiction_level == "Low":
 
         recommendations.append(
             "Continue maintaining healthy and balanced social media habits."
         )
 
-
-    # Anxiety
-    if anxiety >= 15:
+        recommendations.append(
+            "Take short breaks during long periods of screen use."
+        )
 
         recommendations.append(
-            "Practice relaxation activities such as deep breathing, meditation, or short breaks."
+            "Keep unnecessary social media notifications turned off."
+        )
+
+        # Screen time
+
+        if screen_hours >= 4:
+
+            recommendations.append(
+                "Your reported screen time is somewhat high. "
+                "Try reducing unnecessary scrolling gradually."
+            )
+
+
+        # Sleep
+
+        if sleep_hours < 7:
+
+            recommendations.append(
+                "Try to maintain a regular sleep schedule "
+                "and avoid social media close to bedtime."
+            )
+
+
+        # Physical activity
+
+        if physical_activity < 3:
+
+            recommendations.append(
+                "Include more physical activity during the week "
+                "and replace some screen time with exercise or outdoor activities."
+            )
+
+
+        # FOMO
+
+        if fomo >= 7:
+
+            recommendations.append(
+                "If FOMO causes frequent checking, "
+                "try checking social media only at planned times."
+            )
+
+
+        # Social comparison
+
+        if social_comparison >= 7:
+
+            recommendations.append(
+                "Consider reducing exposure to content "
+                "that causes excessive social comparison."
+            )
+
+
+        # Loneliness
+
+        if loneliness >= 7:
+
+            recommendations.append(
+                "Try spending more quality time with friends, "
+                "family, or supportive people."
+            )
+
+
+        # Self-esteem
+
+        if self_esteem <= 4:
+
+            recommendations.append(
+                "Focus on your strengths and personal achievements "
+                "rather than comparing yourself with others online."
+            )
+
+
+    # ========================================================
+    # MODERATE ADDICTION
+    # ========================================================
+
+    elif addiction_level == "Moderate":
+
+        recommendations.append(
+            "Set a daily social media time limit "
+            "and gradually reduce unnecessary usage."
+        )
+
+        recommendations.append(
+            "Turn off non-essential social media notifications "
+            "to reduce frequent checking."
+        )
+
+        recommendations.append(
+            "Create at least one 30-minute screen-free period every day."
+        )
+
+        recommendations.append(
+            "Avoid checking social media immediately after waking up."
+        )
+
+        recommendations.append(
+            "Keep your phone away while studying, working, "
+            "or performing important tasks."
         )
 
 
-    # Low mood
-    if low_mood >= 15:
+        # Screen time
+
+        if screen_hours >= 5:
+
+            recommendations.append(
+                "Your reported screen time is relatively high. "
+                "Try reducing it gradually by 15–30 minutes each day."
+            )
+
+
+        # Sleep
+
+        if sleep_hours < 7:
+
+            recommendations.append(
+                "Avoid social media before bedtime "
+                "and keep your phone away while sleeping."
+            )
+
+
+        # Physical activity
+
+        if physical_activity < 3:
+
+            recommendations.append(
+                "Replace some social media time with walking, "
+                "exercise, hobbies, or outdoor activities."
+            )
+
+
+        # FOMO
+
+        if fomo >= 7:
+
+            recommendations.append(
+                "Your FOMO score is high. "
+                "Try scheduled social-media checking instead of repeatedly checking for updates."
+            )
+
+
+        # Social comparison
+
+        if social_comparison >= 7:
+
+            recommendations.append(
+                "Your social comparison score is high. "
+                "Consider muting or unfollowing content that negatively affects your wellbeing."
+            )
+
+
+        # Anxiety
+
+        if anxiety_score >= 15:
+
+            recommendations.append(
+                "Your anxiety-related responses are relatively elevated. "
+                "Consider regular screen-free breaks and calming offline activities."
+            )
+
+
+        # Low mood
+
+        if low_mood_score >= 15:
+
+            recommendations.append(
+                "Your low-mood responses are relatively elevated. "
+                "Try incorporating enjoyable offline activities, "
+                "exercise, and supportive social interaction."
+            )
+
+
+        # Loneliness
+
+        if loneliness >= 7:
+
+            recommendations.append(
+                "Try increasing meaningful offline interaction "
+                "with friends, family, or people you trust."
+            )
+
+
+        # Self-esteem
+
+        if self_esteem <= 4:
+
+            recommendations.append(
+                "Focus on personal achievements and strengths "
+                "instead of comparing yourself with people online."
+            )
+
+
+    # ========================================================
+    # HIGH ADDICTION
+    # ========================================================
+
+    elif addiction_level == "High":
 
         recommendations.append(
-            "Spend time doing enjoyable offline activities and maintain a regular daily routine."
+            "Set a strict daily limit for social media applications."
+        )
+
+        recommendations.append(
+            "Turn off unnecessary notifications "
+            "and avoid repeated checking of social media."
+        )
+
+        recommendations.append(
+            "Create regular phone-free periods during the day."
+        )
+
+        recommendations.append(
+            "Consider removing highly distracting social media applications "
+            "from your home screen or temporarily restricting them."
+        )
+
+        recommendations.append(
+            "Replace some social media time with exercise, "
+            "hobbies, study, or offline social activities."
         )
 
 
-    # Life satisfaction
-    if life_satisfaction <= 4:
+        # Screen time
 
-        recommendations.append(
-            "Focus on personal goals, hobbies, relationships, and activities that improve wellbeing."
-        )
+        if screen_hours >= 6:
 
-
-    # Loneliness
-    if loneliness >= 7:
-
-        recommendations.append(
-            "Try to spend more quality time with friends, family, or supportive people."
-        )
+            recommendations.append(
+                "Your reported screen time is high. "
+                "Consider following a structured gradual reduction plan "
+                "rather than making a sudden change."
+            )
 
 
-    # Self esteem
-    if self_esteem <= 4:
+        # Sleep
 
-        recommendations.append(
-            "Focus on your strengths and achievements instead of comparing yourself with others."
-        )
+        if sleep_hours < 7:
 
-
-    # FOMO
-    if fomo >= 7:
-
-        recommendations.append(
-            "Avoid constantly checking social media and remember that online posts do not show everything."
-        )
+            recommendations.append(
+                "Avoid social media close to bedtime "
+                "and keep your phone away from your sleeping area when possible."
+            )
 
 
-    # Social comparison
-    if social_comparison >= 7:
+        # Physical activity
 
-        recommendations.append(
-            "Reduce comparison with people online and focus on your own progress."
-        )
+        if physical_activity < 3:
+
+            recommendations.append(
+                "Increase physical activity during the week "
+                "and use it as an alternative to unnecessary screen time."
+            )
 
 
-    # General recommendation
-    recommendations.append(
-        "Maintain healthy sleep, physical activity, and regular offline activities."
-    )
+        # FOMO
+
+        if fomo >= 7:
+
+            recommendations.append(
+                "Your FOMO score is high. "
+                "Try checking social media only at scheduled times "
+                "rather than whenever you feel the urge to check."
+            )
+
+
+        # Social comparison
+
+        if social_comparison >= 7:
+
+            recommendations.append(
+                "Your social comparison score is high. "
+                "Consider muting or unfollowing accounts "
+                "that encourage unhealthy comparison."
+            )
+
+
+        # Anxiety
+
+        if anxiety_score >= 15:
+
+            recommendations.append(
+                "Your anxiety-related responses are relatively elevated. "
+                "Include regular screen-free periods and calming offline activities."
+            )
+
+
+        # Low mood
+
+        if low_mood_score >= 15:
+
+            recommendations.append(
+                "Your low-mood responses are relatively elevated. "
+                "Try maintaining offline activities, "
+                "physical activity, and supportive social connections."
+            )
+
+
+        # Loneliness
+
+        if loneliness >= 7:
+
+            recommendations.append(
+                "Try increasing meaningful offline interaction "
+                "with friends, family, or people you trust."
+            )
+
+
+        # Self-esteem
+
+        if self_esteem <= 4:
+
+            recommendations.append(
+                "Focus on your strengths and achievements "
+                "rather than comparing yourself with others online."
+            )
+
+
+        # Professional support
+
+        if anxiety_score >= 15 or low_mood_score >= 15:
+
+            recommendations.append(
+                "If social media use is causing significant distress "
+                "or interfering with daily life, consider discussing "
+                "your concerns with a qualified mental-health professional."
+            )
 
 
     return recommendations
@@ -238,9 +502,20 @@ def get_recommendation(addiction_level, scores):
 def home():
 
     return render_template(
-        "index.html"
+        "home.html"
     )
 
+
+# ============================================================
+# ASSESSMENT PAGE
+# ============================================================
+
+@app.route("/assessment")
+def assessment():
+
+    return render_template(
+        "index.html"
+    )
 
 # ============================================================
 # PREDICTION
@@ -306,31 +581,31 @@ def predict():
 
         life_satisfaction = int(
             request.form.get(
-                "life_satisfaction_1to10"
+                "life_satisfaction"
             )
         )
 
         loneliness = int(
             request.form.get(
-                "loneliness_1to10"
+                "loneliness"
             )
         )
 
         self_esteem = int(
             request.form.get(
-                "self_esteem_1to10"
+                "self_esteem"
             )
         )
 
         fomo = int(
             request.form.get(
-                "fomo_1to10"
+                "fomo"
             )
         )
 
         social_comparison = int(
             request.form.get(
-                "social_comparison_1to10"
+                "social_comparison"
             )
         )
 
@@ -347,7 +622,7 @@ def predict():
 
 
         # ====================================================
-        # CREATE DATAFRAME
+        # CREATE USER DATAFRAME
         # ====================================================
 
         user_data = pd.DataFrame([{
@@ -449,7 +724,28 @@ def predict():
 
 
         # ====================================================
-        # CONVERT CLASS TO LEVEL
+        # PREDICTION PROBABILITY
+        # ====================================================
+
+        confidence = None
+
+        if hasattr(
+            model,
+            "predict_proba"
+        ):
+
+            probabilities = model.predict_proba(
+                user_data
+            )
+
+            confidence = round(
+                float(probabilities[0].max()) * 100,
+                2
+            )
+
+
+        # ====================================================
+        # CONVERT CLASS TO ADDICTION LEVEL
         # ====================================================
 
         if predicted_class in label_mapping:
@@ -508,20 +804,38 @@ def predict():
 
 
         # ====================================================
-        # RECOMMENDATIONS
+        # GET PERSONALIZED RECOMMENDATIONS
         # ====================================================
 
-        recommendations = get_recommendation(
+        recommendations = get_recommendations(
 
             addiction_level,
 
-            scores
+            daily_screen_hours,
+
+            avg_sleep_hours,
+
+            physical_activity,
+
+            anxiety_score,
+
+            low_mood_score,
+
+            life_satisfaction,
+
+            loneliness,
+
+            self_esteem,
+
+            fomo,
+
+            social_comparison
 
         )
 
 
         # ====================================================
-        # SAVE PREDICTION
+        # SAVE PREDICTION TO DATABASE
         # ====================================================
 
         conn = sqlite3.connect(
@@ -609,6 +923,8 @@ def predict():
 
             addiction_level=addiction_level,
 
+            confidence=confidence,
+
             scores=scores,
 
             recommendations=recommendations
@@ -620,13 +936,27 @@ def predict():
 
         return f"""
 
-        <h2>Error occurred</h2>
+        <html>
 
-        <p>{str(e)}</p>
+        <head>
 
-        <br>
+            <title>SMADS - Error</title>
 
-        <a href="/">Go back</a>
+        </head>
+
+        <body>
+
+            <h2>Error occurred</h2>
+
+            <p>{str(e)}</p>
+
+            <br>
+
+            <a href="/">Go back</a>
+
+        </body>
+
+        </html>
 
         """
 
@@ -813,6 +1143,7 @@ def progress():
 
         )
 
+
         current_value = level_value.get(
 
             current_level,
@@ -825,8 +1156,8 @@ def progress():
         if current_value < previous_value:
 
             message = (
-                "🎉 Great progress! Your addiction level "
-                "has decreased compared with your previous assessment."
+                "Your latest predicted addiction level is lower "
+                "than your previous assessment."
             )
 
             status = "improved"
@@ -835,9 +1166,9 @@ def progress():
         elif current_value > previous_value:
 
             message = (
-                "Your addiction level has increased compared "
-                "with your previous assessment. Try following "
-                "the wellness recommendations."
+                "Your latest predicted addiction level is higher "
+                "than your previous assessment. "
+                "Review the digital wellbeing recommendations."
             )
 
             status = "increased"
@@ -846,8 +1177,8 @@ def progress():
         else:
 
             message = (
-                "Your addiction level is unchanged. "
-                "Keep working on your digital wellness habits."
+                "Your predicted addiction level is unchanged. "
+                "Continue working on your digital wellbeing habits."
             )
 
             status = "same"
