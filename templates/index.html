@@ -31,25 +31,26 @@
             SMADS
         </div>
 
-       <nav>
+        <nav>
 
-    <a href="{{ url_for('home') }}">
-        Home
-    </a>
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
 
-    <a href="{{ url_for('assessment') }}" class="active">
-        Assessment
-    </a>
+            <a href="{{ url_for('assessment') }}" class="active">
+                Assessment
+            </a>
 
-    <a href="{{ url_for('history') }}">
-        History
-    </a>
+            <a href="{{ url_for('history') }}">
+                History
+            </a>
 
-    <a href="{{ url_for('progress') }}">
-        Progress
-    </a>
+            <a href="{{ url_for('progress') }}">
+                Progress
+            </a>
 
-</nav>
+        </nav>
+
     </div>
 
 </header>
@@ -202,6 +203,14 @@
                             Female
                         </option>
 
+                        <option value="Non-binary">
+                            Non-binary
+                        </option>
+
+                        <option value="Prefer not to say">
+                            Prefer not to say
+                        </option>
+
                         <option value="Other">
                             Other
                         </option>
@@ -230,25 +239,7 @@
 
 
 
-                <!-- REGION -->
-
-                <div class="form-group">
-
-                    <label for="region">
-                        Region
-                    </label>
-
-                    <input type="text"
-                           id="region"
-                           name="region"
-                           placeholder="Example: Kerala"
-                           required>
-
-                </div>
-
-
-
-                <!-- PLATFORM -->
+                <!-- MOST USED PLATFORM -->
 
                 <div class="form-group form-group-wide">
 
@@ -284,8 +275,20 @@
                             TikTok
                         </option>
 
-                        <option value="Twitter-X">
+                        <option value="X/Twitter">
                             Twitter-X
+                        </option>
+
+                        <option value="LinkedIn">
+                            LinkedIn
+                        </option>
+
+                        <option value="Reddit">
+                            Reddit
+                        </option>
+
+                        <option value="Snapchat">
+                            Snapchat
                         </option>
 
                         <option value="Other">
@@ -293,6 +296,26 @@
                         </option>
 
                     </select>
+
+                </div>
+
+
+
+                <!-- NUMBER OF PLATFORMS -->
+
+                <div class="form-group">
+
+                    <label for="platforms_used_count">
+                        Number of Social Media Platforms Used
+                    </label>
+
+                    <input type="number"
+                           id="platforms_used_count"
+                           name="platforms_used_count"
+                           min="1"
+                           max="10"
+                           step="1"
+                           required>
 
                 </div>
 
@@ -312,6 +335,58 @@
                            min="0"
                            max="24"
                            step="0.1"
+                           required>
+
+                </div>
+
+
+
+                <!-- NIGHT TIME USE -->
+
+                <div class="form-group">
+
+                    <label for="night_time_use">
+                        Do you use social media at night?
+                    </label>
+
+                    <select id="night_time_use"
+                            name="night_time_use"
+                            required>
+
+                        <option value="">
+                            Select an option
+                        </option>
+
+                        <!-- IMPORTANT: numeric values -->
+
+                        <option value="1">
+                            Yes
+                        </option>
+
+                        <option value="0">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- FIRST CHECK AFTER WAKING -->
+
+                <div class="form-group">
+
+                    <label for="minutes_to_first_check_after_waking">
+                        Minutes Until First Social Media Check After Waking
+                    </label>
+
+                    <input type="number"
+                           id="minutes_to_first_check_after_waking"
+                           name="minutes_to_first_check_after_waking"
+                           min="0"
+                           max="1440"
+                           step="1"
                            required>
 
                 </div>
@@ -351,7 +426,144 @@
                            name="physical_activity"
                            min="0"
                            max="7"
+                           step="1"
                            required>
+
+                </div>
+
+
+
+                <!-- PRIMARY PURPOSE -->
+
+                <div class="form-group">
+
+                    <label for="primary_purpose">
+                        Primary Purpose of Social Media
+                    </label>
+
+                    <select id="primary_purpose"
+                            name="primary_purpose"
+                            required>
+
+                        <option value="">
+                            Select Purpose
+                        </option>
+
+                        <option value="Content creation">
+                            Content creation
+                        </option>
+
+                        <option value="Entertainment">
+                            Entertainment
+                        </option>
+
+                        <option value="News/information">
+                            News / information
+                        </option>
+
+                        <option value="Passing time/boredom">
+                            Passing time / boredom
+                        </option>
+
+                        <option value="Work/career">
+                            Work / career
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- SCREEN TIME LIMITS -->
+
+                <div class="form-group">
+
+                    <label for="uses_screen_time_limits">
+                        Do you use screen-time limits?
+                    </label>
+
+                    <select id="uses_screen_time_limits"
+                            name="uses_screen_time_limits"
+                            required>
+
+                        <option value="">
+                            Select an option
+                        </option>
+
+                        <!-- IMPORTANT: numeric values -->
+
+                        <option value="1">
+                            Yes
+                        </option>
+
+                        <option value="0">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- DIGITAL DETOX -->
+
+                <div class="form-group">
+
+                    <label for="attempted_digital_detox">
+                        Have you attempted a digital detox?
+                    </label>
+
+                    <select id="attempted_digital_detox"
+                            name="attempted_digital_detox"
+                            required>
+
+                        <option value="">
+                            Select an option
+                        </option>
+
+                        <option value="1">
+                            Yes
+                        </option>
+
+                        <option value="0">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- MENTAL HEALTH SUPPORT -->
+
+                <div class="form-group">
+
+                    <label for="seeks_mental_health_support">
+                        Have you sought mental-health support?
+                    </label>
+
+                    <select id="seeks_mental_health_support"
+                            name="seeks_mental_health_support"
+                            required>
+
+                        <option value="">
+                            Select an option
+                        </option>
+
+                        <!-- IMPORTANT: numeric values -->
+
+                        <option value="1">
+                            Yes
+                        </option>
+
+                        <option value="0">
+                            No
+                        </option>
+
+                    </select>
 
                 </div>
 
@@ -380,16 +592,13 @@
                     </h2>
 
                     <p class="section-description">
-
                         Select the option that best describes how
                         often you experienced each symptom.
-
                     </p>
 
                 </div>
 
             </div>
-
 
 
             <!-- QUESTION 1 -->
@@ -400,8 +609,7 @@
                     1. I felt nervous, anxious or on edge.
                 </label>
 
-                <select class="anxiety-question"
-                        required>
+                <select class="anxiety-question" required>
 
                     <option value="">
                         Select an option
@@ -441,8 +649,7 @@
                     2. I was unable to stop or control worrying.
                 </label>
 
-                <select class="anxiety-question"
-                        required>
+                <select class="anxiety-question" required>
 
                     <option value="">
                         Select an option
@@ -482,8 +689,7 @@
                     3. I worried too much about different things.
                 </label>
 
-                <select class="anxiety-question"
-                        required>
+                <select class="anxiety-question" required>
 
                     <option value="">
                         Select an option
@@ -523,8 +729,7 @@
                     4. I had trouble relaxing.
                 </label>
 
-                <select class="anxiety-question"
-                        required>
+                <select class="anxiety-question" required>
 
                     <option value="">
                         Select an option
@@ -564,8 +769,7 @@
                     5. I felt restless or found it difficult to sit still.
                 </label>
 
-                <select class="anxiety-question"
-                        required>
+                <select class="anxiety-question" required>
 
                     <option value="">
                         Select an option
@@ -605,8 +809,7 @@
                     6. I became easily annoyed or irritable.
                 </label>
 
-                <select class="anxiety-question"
-                        required>
+                <select class="anxiety-question" required>
 
                     <option value="">
                         Select an option
@@ -646,8 +849,7 @@
                     7. I felt afraid as if something awful might happen.
                 </label>
 
-                <select class="anxiety-question"
-                        required>
+                <select class="anxiety-question" required>
 
                     <option value="">
                         Select an option
@@ -687,8 +889,7 @@
                     8. I found it difficult to concentrate because of worry.
                 </label>
 
-                <select class="anxiety-question"
-                        required>
+                <select class="anxiety-question" required>
 
                     <option value="">
                         Select an option
@@ -728,8 +929,7 @@
                     9. I felt that my worries were difficult to control throughout the day.
                 </label>
 
-                <select class="anxiety-question"
-                        required>
+                <select class="anxiety-question" required>
 
                     <option value="">
                         Select an option
@@ -791,10 +991,8 @@
                     </h2>
 
                     <p class="section-description">
-
                         Select the option that best describes
                         your recent experience.
-
                     </p>
 
                 </div>
@@ -803,7 +1001,7 @@
 
 
 
-            <!-- LOW MOOD QUESTION 1 -->
+            <!-- QUESTION 1 -->
 
             <div class="question">
 
@@ -811,8 +1009,7 @@
                     1. I had little interest or pleasure in doing things.
                 </label>
 
-                <select class="mood-question"
-                        required>
+                <select class="mood-question" required>
 
                     <option value="">
                         Select an option
@@ -852,8 +1049,7 @@
                     2. I felt down, depressed or hopeless.
                 </label>
 
-                <select class="mood-question"
-                        required>
+                <select class="mood-question" required>
 
                     <option value="">
                         Select an option
@@ -893,8 +1089,7 @@
                     3. I had trouble sleeping or slept too much.
                 </label>
 
-                <select class="mood-question"
-                        required>
+                <select class="mood-question" required>
 
                     <option value="">
                         Select an option
@@ -934,8 +1129,7 @@
                     4. I felt tired or had little energy.
                 </label>
 
-                <select class="mood-question"
-                        required>
+                <select class="mood-question" required>
 
                     <option value="">
                         Select an option
@@ -975,8 +1169,7 @@
                     5. I experienced changes in my appetite.
                 </label>
 
-                <select class="mood-question"
-                        required>
+                <select class="mood-question" required>
 
                     <option value="">
                         Select an option
@@ -1016,8 +1209,7 @@
                     6. I felt bad about myself.
                 </label>
 
-                <select class="mood-question"
-                        required>
+                <select class="mood-question" required>
 
                     <option value="">
                         Select an option
@@ -1057,8 +1249,7 @@
                     7. I had difficulty concentrating on things.
                 </label>
 
-                <select class="mood-question"
-                        required>
+                <select class="mood-question" required>
 
                     <option value="">
                         Select an option
@@ -1098,8 +1289,7 @@
                     8. I felt that I was moving or speaking unusually slowly.
                 </label>
 
-                <select class="mood-question"
-                        required>
+                <select class="mood-question" required>
 
                     <option value="">
                         Select an option
@@ -1139,8 +1329,7 @@
                     9. I felt that I would be better off not being here.
                 </label>
 
-                <select class="mood-question"
-                        required>
+                <select class="mood-question" required>
 
                     <option value="">
                         Select an option
@@ -1202,10 +1391,8 @@
                     </h2>
 
                     <p class="section-description">
-
                         Rate each factor from 1 to 10 based on
                         your current experience.
-
                     </p>
 
                 </div>

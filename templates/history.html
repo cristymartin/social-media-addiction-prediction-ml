@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,855 +10,8 @@
 
     <title>SMADS - Prediction History</title>
 
-
-    <style>
-
-        /* =====================================================
-           GLOBAL
-        ===================================================== */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-
-            background:
-                radial-gradient(
-                    circle at 80% 5%,
-                    rgba(99, 102, 241, 0.15),
-                    transparent 28%
-                ),
-                radial-gradient(
-                    circle at 10% 70%,
-                    rgba(79, 70, 229, 0.10),
-                    transparent 30%
-                ),
-                #071426;
-
-            color: #f8fafc;
-
-            min-height: 100vh;
-        }
-
-
-        /* =====================================================
-           NAVBAR
-        ===================================================== */
-
-        nav {
-
-            height: 92px;
-
-            padding: 0 6%;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            background: rgba(5, 17, 35, 0.94);
-
-            border-bottom:
-                1px solid rgba(148, 163, 184, 0.12);
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 1000;
-
-            backdrop-filter: blur(16px);
-        }
-
-
-        /* LOGO */
-
-        .logo {
-
-            font-size: 30px;
-
-            font-weight: 800;
-
-            letter-spacing: 1px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #60a5fa,
-                    #818cf8,
-                    #a78bfa
-                );
-
-            -webkit-background-clip: text;
-
-            -webkit-text-fill-color: transparent;
-        }
-
-
-        /* NAVIGATION */
-
-        .nav-links {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-        }
-
-
-        .nav-links a {
-
-            color: #94a3b8;
-
-            text-decoration: none;
-
-            padding: 13px 18px;
-
-            border-radius: 12px;
-
-            font-size: 15px;
-
-            font-weight: 600;
-
-            transition: all 0.3s ease;
-        }
-
-
-        .nav-links a:hover {
-
-            color: white;
-
-            background:
-                rgba(99, 102, 241, 0.12);
-        }
-
-
-        .nav-links a.active {
-
-            color: white;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(99, 102, 241, 0.25),
-                    rgba(79, 70, 229, 0.12)
-                );
-
-            box-shadow:
-                inset 0 0 0 1px
-                rgba(129, 140, 248, 0.15);
-        }
-
-
-        /* =====================================================
-           MAIN CONTAINER
-        ===================================================== */
-
-        .container {
-
-            width: 90%;
-
-            max-width: 1350px;
-
-            margin: auto;
-
-            padding:
-                65px 0 80px;
-        }
-
-
-        /* =====================================================
-           PAGE HEADER
-        ===================================================== */
-
-        .page-header {
-
-            text-align: center;
-
-            margin-bottom: 45px;
-        }
-
-
-        .badge {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 9px;
-
-            padding:
-                9px 18px;
-
-            margin-bottom: 22px;
-
-            border:
-                1px solid
-                rgba(129, 140, 248, 0.25);
-
-            border-radius: 50px;
-
-            background:
-                rgba(99, 102, 241, 0.08);
-
-            color: #a5b4fc;
-
-            font-size: 12px;
-
-            font-weight: 700;
-
-            letter-spacing: 1.5px;
-
-            text-transform: uppercase;
-        }
-
-
-        .badge-dot {
-
-            width: 7px;
-
-            height: 7px;
-
-            border-radius: 50%;
-
-            background: #818cf8;
-
-            box-shadow:
-                0 0 12px #818cf8;
-        }
-
-
-        .page-header h1 {
-
-            font-size:
-                clamp(38px, 5vw, 58px);
-
-            line-height: 1.05;
-
-            margin-bottom: 18px;
-
-            font-weight: 800;
-
-            letter-spacing: -1.5px;
-        }
-
-
-        .page-header h1 span {
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #818cf8,
-                    #a78bfa,
-                    #60a5fa
-                );
-
-            -webkit-background-clip: text;
-
-            -webkit-text-fill-color: transparent;
-        }
-
-
-        .subtitle {
-
-            color: #94a3b8;
-
-            font-size: 17px;
-
-            line-height: 1.7;
-
-            max-width: 700px;
-
-            margin: auto;
-        }
-
-
-        /* =====================================================
-           HISTORY SUMMARY
-        ===================================================== */
-
-        .history-info {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            margin-bottom: 18px;
-        }
-
-
-        .history-info h2 {
-
-            font-size: 22px;
-
-            color: #f8fafc;
-        }
-
-
-        .history-info p {
-
-            margin-top: 6px;
-
-            color: #64748b;
-
-            font-size: 13px;
-        }
-
-
-        .history-icon {
-
-            width: 48px;
-
-            height: 48px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius: 13px;
-
-            background:
-                rgba(99, 102, 241, 0.13);
-
-            font-size: 22px;
-        }
-
-
-        /* =====================================================
-           TABLE CARD
-        ===================================================== */
-
-        .table-card {
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(30, 41, 59, 0.94),
-                    rgba(15, 23, 42, 0.96)
-                );
-
-            border:
-                1px solid
-                rgba(148, 163, 184, 0.10);
-
-            border-radius: 22px;
-
-            padding: 12px;
-
-            box-shadow:
-                0 20px 60px
-                rgba(0, 0, 0, 0.25);
-
-            overflow: hidden;
-        }
-
-
-        /* =====================================================
-           TABLE SCROLL
-        ===================================================== */
-
-        .table-wrapper {
-
-            overflow-x: auto;
-
-            border-radius: 15px;
-
-            scrollbar-width: thin;
-
-            scrollbar-color:
-                #4f46e5
-                #172033;
-        }
-
-
-        .table-wrapper::-webkit-scrollbar {
-
-            height: 9px;
-        }
-
-
-        .table-wrapper::-webkit-scrollbar-track {
-
-            background: #111c30;
-
-            border-radius: 20px;
-        }
-
-
-        .table-wrapper::-webkit-scrollbar-thumb {
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #4f46e5,
-                    #7c3aed
-                );
-
-            border-radius: 20px;
-        }
-
-
-        /* =====================================================
-           TABLE
-        ===================================================== */
-
-        table {
-
-            width: 100%;
-
-            min-width: 1250px;
-
-            border-collapse: separate;
-
-            border-spacing: 0;
-
-            overflow: hidden;
-        }
-
-
-        /* HEADER */
-
-        thead th {
-
-            padding:
-                18px 20px;
-
-            background:
-                #18243a;
-
-            color: #a5b4fc;
-
-            font-size: 12px;
-
-            font-weight: 700;
-
-            letter-spacing: 0.5px;
-
-            text-transform: uppercase;
-
-            white-space: nowrap;
-
-            text-align: center;
-
-            border-bottom:
-                1px solid
-                rgba(129, 140, 248, 0.15);
-        }
-
-
-        thead th:first-child {
-
-            border-top-left-radius: 13px;
-        }
-
-
-        thead th:last-child {
-
-            border-top-right-radius: 13px;
-        }
-
-
-        /* TABLE BODY */
-
-        tbody td {
-
-            padding:
-                17px 20px;
-
-            text-align: center;
-
-            color: #cbd5e1;
-
-            font-size: 14px;
-
-            white-space: nowrap;
-
-            border-bottom:
-                1px solid
-                rgba(148, 163, 184, 0.07);
-
-            background:
-                rgba(15, 23, 42, 0.55);
-
-            transition:
-                background 0.25s ease;
-        }
-
-
-        tbody tr:last-child td {
-
-            border-bottom: none;
-        }
-
-
-        tbody tr:hover td {
-
-            background:
-                rgba(99, 102, 241, 0.08);
-
-            color: #f8fafc;
-        }
-
-
-        /* DATE */
-
-        tbody td:first-child {
-
-            color: #94a3b8;
-
-            font-weight: 500;
-        }
-
-
-        /* =====================================================
-           ADDICTION LEVEL BADGES
-        ===================================================== */
-
-        .level-badge {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            min-width: 82px;
-
-            padding:
-                7px 13px;
-
-            border-radius: 30px;
-
-            font-size: 12px;
-
-            font-weight: 800;
-        }
-
-
-        .high {
-
-            color: #fb7185;
-
-            background:
-                rgba(244, 63, 94, 0.12);
-
-            border:
-                1px solid
-                rgba(244, 63, 94, 0.20);
-        }
-
-
-        .moderate {
-
-            color: #fbbf24;
-
-            background:
-                rgba(245, 158, 11, 0.12);
-
-            border:
-                1px solid
-                rgba(245, 158, 11, 0.20);
-        }
-
-
-        .low {
-
-            color: #4ade80;
-
-            background:
-                rgba(34, 197, 94, 0.12);
-
-            border:
-                1px solid
-                rgba(34, 197, 94, 0.20);
-        }
-
-
-        /* =====================================================
-           EMPTY STATE
-        ===================================================== */
-
-        .empty {
-
-            text-align: center;
-
-            padding:
-                75px 25px;
-
-            color: #94a3b8;
-        }
-
-
-        .empty-icon {
-
-            width: 75px;
-
-            height: 75px;
-
-            margin:
-                0 auto 20px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius: 20px;
-
-            background:
-                rgba(99, 102, 241, 0.10);
-
-            font-size: 34px;
-        }
-
-
-        .empty h2 {
-
-            color: #f8fafc;
-
-            font-size: 23px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .empty p {
-
-            color: #64748b;
-
-            font-size: 14px;
-
-            line-height: 1.6;
-        }
-
-
-        /* =====================================================
-           BUTTONS
-        ===================================================== */
-
-        .buttons {
-
-            display: flex;
-
-            justify-content: center;
-
-            gap: 14px;
-
-            margin-top: 32px;
-
-            flex-wrap: wrap;
-        }
-
-
-        .button {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 9px;
-
-            min-width: 190px;
-
-            padding:
-                14px 22px;
-
-            border-radius: 12px;
-
-            text-decoration: none;
-
-            font-size: 14px;
-
-            font-weight: 700;
-
-            color: white;
-
-            background: #172033;
-
-            border:
-                1px solid
-                rgba(148, 163, 184, 0.12);
-
-            transition:
-                all 0.3s ease;
-        }
-
-
-        .button:hover {
-
-            transform:
-                translateY(-3px);
-
-            background: #1e293b;
-
-            border-color:
-                rgba(129, 140, 248, 0.30);
-        }
-
-
-        .button.primary {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #6366f1,
-                    #7c3aed
-                );
-
-            border: none;
-
-            box-shadow:
-                0 10px 30px
-                rgba(99, 102, 241, 0.25);
-        }
-
-
-        .button.primary:hover {
-
-            box-shadow:
-                0 15px 35px
-                rgba(99, 102, 241, 0.35);
-
-            transform:
-                translateY(-3px);
-        }
-
-
-        /* =====================================================
-           FOOTER
-        ===================================================== */
-
-        .footer {
-
-            text-align: center;
-
-            margin-top: 50px;
-
-            color: #475569;
-
-            font-size: 12px;
-        }
-
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
-        @media (max-width: 800px) {
-
-            nav {
-
-                height: auto;
-
-                padding:
-                    18px 5%;
-
-                flex-direction: column;
-
-                gap: 15px;
-            }
-
-
-            .nav-links {
-
-                width: 100%;
-
-                justify-content: center;
-
-                flex-wrap: wrap;
-            }
-
-
-            .nav-links a {
-
-                padding:
-                    9px 12px;
-
-                font-size: 13px;
-            }
-
-
-            .container {
-
-                width: 92%;
-
-                padding-top: 45px;
-            }
-
-
-            .page-header h1 {
-
-                font-size: 40px;
-            }
-
-
-            .history-info {
-
-                align-items: flex-start;
-
-                gap: 15px;
-            }
-
-        }
-
-
-        @media (max-width: 500px) {
-
-            .logo {
-
-                font-size: 26px;
-            }
-
-
-            .nav-links {
-
-                gap: 3px;
-            }
-
-
-            .page-header h1 {
-
-                font-size: 34px;
-            }
-
-
-            .subtitle {
-
-                font-size: 14px;
-            }
-
-
-            .table-card {
-
-                padding: 8px;
-            }
-
-
-            .button {
-
-                width: 100%;
-            }
-
-        }
-
-    </style>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -867,325 +19,439 @@
 <body>
 
 
-<!-- =========================================================
-     NAVIGATION
-========================================================= -->
+<!-- ========================================================= -->
+<!-- HEADER -->
+<!-- ========================================================= -->
 
-<nav>
+<header class="main-header">
 
+    <div class="header-content">
 
-    <div class="logo">
-
-        SMADS
-
-    </div>
-
-
-
-    <div class="nav-links">
-
-
-        <a href="/">
-            Home
-        </a>
-
-
-        <a href="/assessment">
-            Assessment
-        </a>
-
-
-        <a href="/history" class="active">
-            History
-        </a>
-
-
-        <a href="/progress">
-            Progress
-        </a>
-
-
-    </div>
-
-
-</nav>
-
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-<div class="container">
-
-
-    <!-- =====================================================
-         PAGE HEADER
-    ====================================================== -->
-
-    <div class="page-header">
-
-
-        <div class="badge">
-
-            <span class="badge-dot"></span>
-
-            AI-Powered Digital Wellbeing
-
+        <div class="logo">
+            SMADS
         </div>
 
+        <nav>
 
-        <h1>
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
 
-            Prediction <span>History</span>
+            <a href="{{ url_for('assessment') }}">
+                Assessment
+            </a>
 
-        </h1>
+            <a href="{{ url_for('history') }}"
+               class="active">
+                History
+            </a>
 
+            <a href="{{ url_for('progress') }}">
+                Progress
+            </a>
 
-        <p class="subtitle">
-
-            Review your previous digital wellbeing assessments
-            and understand how your habits have changed over time.
-
-        </p>
-
+        </nav>
 
     </div>
 
+</header>
 
 
-    <!-- =====================================================
-         HISTORY SECTION
-    ====================================================== -->
 
-    <div class="history-info">
+<!-- ========================================================= -->
+<!-- HISTORY PAGE -->
+<!-- ========================================================= -->
+
+<main class="history-container">
 
 
-        <div>
+    <!-- ===================================================== -->
+    <!-- PAGE INTRO -->
+    <!-- ===================================================== -->
 
-            <h2>
-                Assessment History
-            </h2>
+    <section class="history-hero">
+
+        <div class="history-eyebrow">
+            SMADS • DIGITAL WELLBEING
+        </div>
+
+        <h1>
+            Prediction
+            <span>History</span>
+        </h1>
+
+        <p>
+            Review your previous digital wellbeing assessments
+            and track how your habits change over time.
+        </p>
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- SUMMARY CARD -->
+    <!-- ===================================================== -->
+
+    <section class="history-summary">
+
+        <div class="summary-icon">
+            📊
+        </div>
+
+        <div class="summary-content">
+
+            <span>
+                ASSESSMENT RECORDS
+            </span>
+
+            <strong>
+                {{ predictions|length }}
+            </strong>
 
             <p>
-                Your previous digital wellbeing predictions
+                Previous wellbeing assessments
             </p>
 
         </div>
 
+    </section>
 
-        <div class="history-icon">
-            📊
+
+
+    <!-- ===================================================== -->
+    <!-- HISTORY CARD -->
+    <!-- ===================================================== -->
+
+    <section class="history-card">
+
+
+        <!-- CARD HEADER -->
+
+        <div class="history-card-header">
+
+            <div>
+
+                <div class="history-card-label">
+                    YOUR RECORDS
+                </div>
+
+                <h2>
+                    Assessment History
+                </h2>
+
+                <p>
+                    Your previous digital wellbeing predictions
+                </p>
+
+            </div>
+
+            <div class="history-card-icon">
+                📈
+            </div>
+
         </div>
 
 
-    </div>
 
-
-
-    <!-- =====================================================
-         TABLE
-    ====================================================== -->
-
-    <div class="table-card">
-
+        <!-- ================================================= -->
+        <!-- TABLE -->
+        <!-- ================================================= -->
 
         {% if predictions %}
 
+        <div class="history-table-wrapper">
 
-        <div class="table-wrapper">
-
-
-            <table>
-
+            <table class="history-table">
 
                 <thead>
 
                     <tr>
 
-                        <th>
-                            Date & Time
-                        </th>
+                        <th>Date & Time</th>
 
-                        <th>
-                            Addiction Level
-                        </th>
+                        <th>Addiction Level</th>
 
-                        <th>
-                            Screen Time
-                        </th>
+                        <th>Screen Time</th>
 
-                        <th>
-                            Sleep Hours
-                        </th>
+                        <th>Sleep Hours</th>
 
-                        <th>
-                            Anxiety
-                        </th>
+                        <th>Anxiety</th>
 
-                        <th>
-                            Low Mood
-                        </th>
+                        <th>Low Mood</th>
 
-                        <th>
-                            Life Satisfaction
-                        </th>
+                        <th>Life Satisfaction</th>
 
-                        <th>
-                            Loneliness
-                        </th>
+                        <th>Loneliness</th>
 
-                        <th>
-                            Self Esteem
-                        </th>
+                        <th>Self Esteem</th>
 
-                        <th>
-                            FOMO
-                        </th>
+                        <th>FOMO</th>
 
-                        <th>
-                            Social Comparison
-                        </th>
+                        <th>Social Comparison</th>
 
-                        <th>
-                            Physical Activity
-                        </th>
+                        <th>Physical Activity</th>
 
                     </tr>
 
                 </thead>
 
 
-
                 <tbody>
 
-
-                    {% for p in predictions %}
-
+                {% for prediction in predictions %}
 
                     <tr>
 
 
-                        <td>
+                        <!-- DATE -->
 
-                            {{ p["date_time"] }}
+                        <td class="date-cell">
 
-                        </td>
+                            {% if prediction["created_at"] %}
 
+                                <div class="date-main">
+                                    {{ prediction["created_at"][:10] }}
+                                </div>
 
+                                <div class="date-time">
+                                    {{ prediction["created_at"][11:16] }}
+                                </div>
 
-                        <td>
+                            {% else %}
 
-                            <span class="level-badge
-                                {% if p['addiction_level']|lower == 'high' %}
-                                    high
-                                {% elif p['addiction_level']|lower == 'moderate' %}
-                                    moderate
-                                {% else %}
-                                    low
-                                {% endif %}
-                            ">
+                                <span class="empty-value">
+                                    —
+                                </span>
 
-                                {{ p["addiction_level"] }}
-
-                            </span>
+                            {% endif %}
 
                         </td>
 
 
 
+                        <!-- ADDICTION LEVEL -->
+
                         <td>
 
-                            {{ p["daily_screen_hours"] }}
-                            hrs
+                            {% if prediction["addiction_level"] == "Low" %}
+
+                                <span class="history-badge badge-low">
+                                    Low
+                                </span>
+
+                            {% elif prediction["addiction_level"] == "Moderate" %}
+
+                                <span class="history-badge badge-moderate">
+                                    Moderate
+                                </span>
+
+                            {% elif prediction["addiction_level"] == "High" %}
+
+                                <span class="history-badge badge-high">
+                                    High
+                                </span>
+
+                            {% else %}
+
+                                <span class="history-badge badge-default">
+                                    {{ prediction["addiction_level"] or "Unknown" }}
+                                </span>
+
+                            {% endif %}
 
                         </td>
 
 
 
-                        <td>
+                        <!-- SCREEN TIME -->
 
-                            {{ p["avg_sleep_hours"] }}
-                            hrs
+                        <td class="metric-cell">
 
-                        </td>
+                            {% if prediction["daily_screen_hours"] is not none %}
 
+                                {{ "%.1f"|format(prediction["daily_screen_hours"]) }}
+                                <span>hrs</span>
 
+                            {% else %}
 
-                        <td>
+                                <span class="empty-value">—</span>
 
-                            {{ p["anxiety_score"] }}
-
-                        </td>
-
-
-
-                        <td>
-
-                            {{ p["low_mood_score"] }}
+                            {% endif %}
 
                         </td>
 
 
 
-                        <td>
+                        <!-- SLEEP -->
 
-                            {{ p["life_satisfaction"] }}
+                        <td class="metric-cell">
 
-                        </td>
+                            {% if prediction["avg_sleep_hours"] is not none %}
 
+                                {{ "%.1f"|format(prediction["avg_sleep_hours"]) }}
+                                <span>hrs</span>
 
+                            {% else %}
 
-                        <td>
+                                <span class="empty-value">—</span>
 
-                            {{ p["loneliness"] }}
-
-                        </td>
-
-
-
-                        <td>
-
-                            {{ p["self_esteem"] }}
+                            {% endif %}
 
                         </td>
 
 
 
+                        <!-- ANXIETY -->
+
                         <td>
 
-                            {{ p["fomo_score"] }}
+                            {% if prediction["anxiety"] is not none %}
+
+                                {{ prediction["anxiety"] }}/27
+
+                            {% else %}
+
+                                <span class="empty-value">—</span>
+
+                            {% endif %}
 
                         </td>
 
 
 
+                        <!-- LOW MOOD -->
+
                         <td>
 
-                            {{ p["social_comparison"] }}
+                            {% if prediction["low_mood"] is not none %}
+
+                                {{ prediction["low_mood"] }}/27
+
+                            {% else %}
+
+                                <span class="empty-value">—</span>
+
+                            {% endif %}
 
                         </td>
 
 
 
+                        <!-- LIFE SATISFACTION -->
+
                         <td>
 
-                            {{ p["physical_activity_days"] }}
+                            {% if prediction["life_satisfaction"] is not none %}
+
+                                {{ prediction["life_satisfaction"] }}/10
+
+                            {% else %}
+
+                                <span class="empty-value">—</span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <!-- LONELINESS -->
+
+                        <td>
+
+                            {% if prediction["loneliness"] is not none %}
+
+                                {{ prediction["loneliness"] }}/10
+
+                            {% else %}
+
+                                <span class="empty-value">—</span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <!-- SELF ESTEEM -->
+
+                        <td>
+
+                            {% if prediction["self_esteem"] is not none %}
+
+                                {{ prediction["self_esteem"] }}/10
+
+                            {% else %}
+
+                                <span class="empty-value">—</span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <!-- FOMO -->
+
+                        <td>
+
+                            {% if prediction["fomo"] is not none %}
+
+                                {{ prediction["fomo"] }}/10
+
+                            {% else %}
+
+                                <span class="empty-value">—</span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <!-- SOCIAL COMPARISON -->
+
+                        <td>
+
+                            {% if prediction["social_comparison"] is not none %}
+
+                                {{ prediction["social_comparison"] }}/10
+
+                            {% else %}
+
+                                <span class="empty-value">—</span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <!-- PHYSICAL ACTIVITY -->
+
+                        <td>
+
+                            {% if prediction["physical_activity"] is not none %}
+
+                                {{ prediction["physical_activity"] }}/7 days
+
+                            {% else %}
+
+                                <span class="empty-value">—</span>
+
+                            {% endif %}
 
                         </td>
 
 
                     </tr>
 
-
-                    {% endfor %}
-
+                {% endfor %}
 
                 </tbody>
 
-
             </table>
-
 
         </div>
 
@@ -1193,83 +459,90 @@
         {% else %}
 
 
-        <!-- =================================================
-             EMPTY HISTORY
-        ================================================== -->
+        <!-- ================================================= -->
+        <!-- EMPTY STATE -->
+        <!-- ================================================= -->
 
-        <div class="empty">
-
+        <div class="history-empty">
 
             <div class="empty-icon">
                 📋
             </div>
 
-
-            <h2>
-                No Prediction History
-            </h2>
-
+            <h3>
+                No assessments yet
+            </h3>
 
             <p>
-
-                Complete your digital wellbeing assessment
-                to create your first prediction.
-
+                Complete your first digital wellbeing assessment
+                to start building your prediction history.
             </p>
 
+            <a href="{{ url_for('assessment') }}"
+               class="history-primary-button">
+
+                📝 Take Your First Assessment
+
+            </a>
 
         </div>
-
 
         {% endif %}
 
 
-    </div>
+    </section>
 
 
 
-    <!-- =====================================================
-         ACTION BUTTONS
-    ====================================================== -->
+    <!-- ===================================================== -->
+    <!-- ACTION BUTTONS -->
+    <!-- ===================================================== -->
 
-    <div class="buttons">
+    <section class="history-actions">
 
-
-        <a href="/progress" class="button">
+        <a href="{{ url_for('progress') }}"
+           class="history-secondary-button">
 
             📈
-
-            View My Progress
+            <span>
+                View My Progress
+            </span>
 
         </a>
 
 
-
-        <a href="/assessment" class="button primary">
+        <a href="{{ url_for('assessment') }}"
+           class="history-primary-button">
 
             📝
-
-            Take Assessment
+            <span>
+                Take Assessment
+            </span>
 
         </a>
 
-
-    </div>
-
+    </section>
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
 
-    <div class="footer">
+    <!-- ===================================================== -->
+    <!-- FOOTER -->
+    <!-- ===================================================== -->
 
-        SMADS • Smart Monitoring & Digital Awareness System
+    <footer class="history-footer">
 
-    </div>
+        <strong>
+            SMADS
+        </strong>
+
+        <span>
+            • Smart Monitoring & Digital Awareness System
+        </span>
+
+    </footer>
 
 
-</div>
+</main>
 
 
 </body>

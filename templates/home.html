@@ -1,6 +1,4 @@
-
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,10 +8,1069 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>SMADS - Digital Wellbeing</title>
+    <title>SMADS - Social Media Addiction Detection System</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        /* =========================================================
+           GLOBAL
+           ========================================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(88, 101, 242, 0.12), transparent 28%),
+                radial-gradient(circle at 90% 25%, rgba(124, 92, 255, 0.09), transparent 25%),
+                #0b1020;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+
+        .main-header {
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(11, 16, 32, 0.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .header-content {
+            max-width: 1180px;
+            margin: auto;
+            padding: 17px 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+
+        /* LOGO */
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #ffffff;
+        }
+
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                135deg,
+                #5865f2,
+                #7c5cff
+            );
+
+            box-shadow:
+                0 8px 25px rgba(88, 101, 242, 0.35);
+
+            font-size: 17px;
+        }
+
+        .logo span {
+            color: #7380ff;
+        }
+
+
+        /* =========================================================
+           NAVIGATION
+           ========================================================= */
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            position: relative;
+
+            padding: 9px 14px;
+
+            color: #aeb8d8;
+
+            font-size: 14px;
+            font-weight: 500;
+
+            border-radius: 8px;
+
+            transition:
+                background 0.25s ease,
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+            background: rgba(88, 101, 242, 0.10);
+            transform: translateY(-1px);
+        }
+
+        nav a.active {
+            color: #ffffff;
+            background: rgba(88, 101, 242, 0.16);
+        }
+
+        nav a.active::after {
+            content: "";
+
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            width: 18px;
+            height: 2px;
+
+            border-radius: 10px;
+
+            background: #6875f5;
+        }
+
+
+        /* LOGIN */
+
+        .login-nav {
+            margin-left: 8px;
+
+            border: 1px solid rgba(104, 117, 245, 0.5);
+
+            color: #ffffff !important;
+        }
+
+        .login-nav:hover {
+            background: rgba(88, 101, 242, 0.18);
+            border-color: #6875f5;
+        }
+
+
+        /* REGISTER */
+
+        .register-nav {
+            color: #ffffff !important;
+
+            background: linear-gradient(
+                135deg,
+                #5865f2,
+                #6f5cff
+            );
+
+            box-shadow:
+                0 6px 20px rgba(88, 101, 242, 0.25);
+        }
+
+        .register-nav:hover {
+            background: linear-gradient(
+                135deg,
+                #6875f5,
+                #806aff
+            );
+
+            box-shadow:
+                0 8px 25px rgba(88, 101, 242, 0.35);
+        }
+
+
+        /* USER */
+
+        .welcome-user {
+            margin-left: 8px;
+            padding: 8px 12px;
+
+            color: #cbd3f7;
+            font-size: 13px;
+
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+        }
+
+        .logout-link {
+            color: #ff9da8 !important;
+        }
+
+        .logout-link:hover {
+            background: rgba(255, 100, 120, 0.08);
+        }
+
+
+        /* =========================================================
+           HERO
+           ========================================================= */
+
+        .hero {
+            position: relative;
+
+            max-width: 1180px;
+            min-height: 590px;
+
+            margin: auto;
+            padding: 85px 30px 75px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 75px;
+        }
+
+
+        /* decorative glow */
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 330px;
+            height: 330px;
+
+            top: 80px;
+            left: -130px;
+
+            background: rgba(88, 101, 242, 0.10);
+
+            filter: blur(80px);
+            border-radius: 50%;
+
+            pointer-events: none;
+        }
+
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+
+            flex: 1;
+            max-width: 680px;
+        }
+
+
+        /* BADGE */
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 14px;
+
+            background: rgba(88, 101, 242, 0.10);
+
+            border: 1px solid rgba(104, 117, 245, 0.30);
+
+            color: #9aa4ff;
+
+            border-radius: 30px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 0.3px;
+
+            margin-bottom: 23px;
+
+            box-shadow:
+                inset 0 0 20px rgba(88, 101, 242, 0.03);
+        }
+
+        .hero-label::before {
+            content: "";
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #6875f5;
+
+            box-shadow:
+                0 0 12px #6875f5;
+        }
+
+
+        /* HERO TITLE */
+
+        .hero h1 {
+            max-width: 700px;
+
+            font-size: clamp(42px, 5vw, 62px);
+            line-height: 1.08;
+
+            letter-spacing: -2px;
+
+            margin-bottom: 23px;
+
+            color: #ffffff;
+        }
+
+        .hero h1 span {
+            display: inline-block;
+
+            background: linear-gradient(
+                135deg,
+                #7d8aff,
+                #9a7cff
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+
+        /* DESCRIPTION */
+
+        .hero-description {
+            max-width: 640px;
+
+            color: #aeb7d6;
+
+            font-size: 17px;
+            line-height: 1.8;
+
+            margin-bottom: 34px;
+        }
+
+
+        /* =========================================================
+           HERO BUTTONS
+           ========================================================= */
+
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            flex-wrap: wrap;
+        }
+
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            min-height: 48px;
+
+            padding: 0 21px;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease;
+        }
+
+
+        /* PRIMARY */
+
+        .primary-button {
+            color: #ffffff;
+
+            background: linear-gradient(
+                135deg,
+                #5865f2,
+                #725cff
+            );
+
+            box-shadow:
+                0 10px 28px rgba(88, 101, 242, 0.25);
+        }
+
+        .primary-button:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 35px rgba(88, 101, 242, 0.38);
+        }
+
+
+        /* SECONDARY */
+
+        .secondary-button {
+            color: #dbe0ff;
+
+            background: rgba(255, 255, 255, 0.025);
+
+            border: 1px solid rgba(104, 117, 245, 0.40);
+        }
+
+        .secondary-button:hover {
+            transform: translateY(-3px);
+
+            background: rgba(88, 101, 242, 0.10);
+
+            border-color: #6875f5;
+        }
+
+
+        /* =========================================================
+           HERO RIGHT PANEL
+           ========================================================= */
+
+        .hero-visual {
+            position: relative;
+            z-index: 1;
+
+            width: 380px;
+            flex-shrink: 0;
+        }
+
+        .hero-card {
+            position: relative;
+
+            width: 100%;
+
+            padding: 30px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(25, 35, 64, 0.96),
+                    rgba(17, 25, 48, 0.96)
+                );
+
+            border: 1px solid rgba(113, 127, 220, 0.20);
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 170px;
+            height: 170px;
+
+            top: -80px;
+            right: -60px;
+
+            background: rgba(88, 101, 242, 0.17);
+
+            filter: blur(45px);
+
+            border-radius: 50%;
+        }
+
+
+        .hero-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 25px;
+        }
+
+        .hero-card-icon {
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(88, 101, 242, 0.22),
+                    rgba(124, 92, 255, 0.12)
+                );
+
+            border: 1px solid rgba(104, 117, 245, 0.22);
+
+            border-radius: 15px;
+
+            font-size: 27px;
+
+            box-shadow:
+                0 10px 25px rgba(88, 101, 242, 0.12);
+        }
+
+        .status-dot {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 7px 10px;
+
+            color: #9ee6bd;
+
+            background: rgba(65, 190, 120, 0.08);
+
+            border: 1px solid rgba(65, 190, 120, 0.16);
+
+            border-radius: 20px;
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-dot::before {
+            content: "";
+
+            width: 6px;
+            height: 6px;
+
+            background: #51d58b;
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 10px rgba(81, 213, 139, 0.8);
+        }
+
+
+        .hero-card h2 {
+            margin-bottom: 10px;
+
+            font-size: 23px;
+            letter-spacing: -0.3px;
+        }
+
+        .hero-card p {
+            color: #9faaca;
+
+            line-height: 1.7;
+            font-size: 14px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* HERO MINI STATS */
+
+        .mini-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+        .mini-stat {
+            padding: 14px;
+
+            background: rgba(255, 255, 255, 0.035);
+
+            border: 1px solid rgba(255, 255, 255, 0.055);
+
+            border-radius: 11px;
+        }
+
+        .mini-stat strong {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #ffffff;
+
+            font-size: 14px;
+        }
+
+        .mini-stat span {
+            color: #818cac;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           SECTION
+           ========================================================= */
+
+        .features-section {
+            max-width: 1180px;
+
+            margin: 0 auto;
+
+            padding: 75px 30px 90px;
+        }
+
+        .section-heading {
+            text-align: center;
+
+            max-width: 650px;
+
+            margin: 0 auto 45px;
+        }
+
+        .section-tag {
+            display: inline-block;
+
+            margin-bottom: 12px;
+
+            color: #7885ff;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .section-heading h2 {
+            font-size: 32px;
+
+            letter-spacing: -0.8px;
+
+            margin-bottom: 11px;
+        }
+
+        .section-heading p {
+            color: #929dbd;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================================
+           FEATURES GRID
+           ========================================================= */
+
+        .features {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .feature-card {
+            position: relative;
+
+            padding: 27px;
+
+            min-height: 205px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 29, 54, 0.95),
+                    rgba(16, 24, 45, 0.95)
+                );
+
+            border: 1px solid rgba(255, 255, 255, 0.065);
+
+            border-radius: 16px;
+
+            transition:
+                transform 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 80px;
+            height: 80px;
+
+            right: -30px;
+            bottom: -35px;
+
+            background: rgba(88, 101, 242, 0.07);
+
+            border-radius: 50%;
+
+            transition: 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+
+            border-color: rgba(104, 117, 245, 0.45);
+
+            box-shadow:
+                0 18px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .feature-card:hover::before {
+            transform: scale(1.5);
+
+            background: rgba(88, 101, 242, 0.11);
+        }
+
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 18px;
+
+            background: rgba(88, 101, 242, 0.11);
+
+            border: 1px solid rgba(104, 117, 245, 0.16);
+
+            border-radius: 12px;
+
+            font-size: 21px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 9px;
+
+            font-size: 17px;
+
+            letter-spacing: -0.2px;
+        }
+
+        .feature-card p {
+            color: #929dbb;
+
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+
+        /* =========================================================
+           LOGGED-IN SECTION
+           ========================================================= */
+
+        .logged-section {
+            max-width: 1180px;
+
+            margin: 0 auto 80px;
+
+            padding: 0 30px;
+        }
+
+        .dashboard-card {
+            position: relative;
+
+            padding: 45px 35px;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(30, 39, 73, 0.96),
+                    rgba(18, 27, 52, 0.96)
+                );
+
+            border: 1px solid rgba(104, 117, 245, 0.22);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 55px rgba(0, 0, 0, 0.22);
+        }
+
+        .dashboard-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            left: -80px;
+            top: -100px;
+
+            background: rgba(88, 101, 242, 0.11);
+
+            filter: blur(60px);
+
+            border-radius: 50%;
+        }
+
+        .dashboard-card h2 {
+            position: relative;
+
+            margin-bottom: 10px;
+
+            font-size: 25px;
+        }
+
+        .dashboard-card p {
+            position: relative;
+
+            max-width: 600px;
+
+            margin: 0 auto 25px;
+
+            color: #9faaca;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+        .dashboard-card .hero-buttons {
+            position: relative;
+
+            justify-content: center;
+        }
+
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+            background: #080d1b;
+
+            text-align: center;
+
+            padding: 30px 20px;
+
+            color: #69738f;
+
+            font-size: 12px;
+
+            line-height: 1.8;
+        }
+
+        footer p:first-child {
+            color: #9ca6c3;
+
+            font-weight: 600;
+
+            margin-bottom: 3px;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 950px) {
+
+            .hero {
+                gap: 40px;
+            }
+
+            .hero h1 {
+                font-size: 46px;
+            }
+
+            .hero-visual {
+                width: 330px;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .header-content {
+                flex-direction: column;
+
+                padding: 15px 20px;
+
+                gap: 15px;
+            }
+
+            nav {
+                justify-content: center;
+            }
+
+            .hero {
+                flex-direction: column;
+
+                text-align: center;
+
+                padding:
+                    65px 22px
+                    60px;
+
+                min-height: auto;
+            }
+
+            .hero-content {
+                max-width: 700px;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                width: 100%;
+                max-width: 410px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+                letter-spacing: -1.5px;
+            }
+
+            .features-section {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+
+            .logged-section {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .logo {
+                font-size: 22px;
+            }
+
+            nav {
+                gap: 2px;
+            }
+
+            nav a {
+                padding: 8px 9px;
+
+                font-size: 12px;
+            }
+
+            .welcome-user {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 50px;
+            }
+
+            .hero h1 {
+                font-size: 37px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .hero-label {
+                font-size: 10px;
+            }
+
+            .hero-card {
+                padding: 25px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading h2 {
+                font-size: 27px;
+            }
+
+            .dashboard-card {
+                padding: 35px 22px;
+            }
+
+            .dashboard-card h2 {
+                font-size: 22px;
+            }
+
+        }
+
+
+        @media (max-width: 420px) {
+
+            nav a {
+                padding: 7px 6px;
+            }
+
+            .hero h1 {
+                font-size: 33px;
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+            }
+
+            .hero-buttons {
+                width: 100%;
+            }
+
+            .mini-stats {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -21,37 +1078,76 @@
 <body>
 
 
-<!-- ========================================================= -->
-<!-- HEADER -->
-<!-- ========================================================= -->
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
 
 <header class="main-header">
 
     <div class="header-content">
 
         <div class="logo">
-            SMADS
+
+            <div class="logo-mark">
+                ✦
+            </div>
+
+            SMADS<span>.</span>
+
         </div>
 
 
         <nav>
+
+            <!-- HOME -->
 
             <a href="{{ url_for('home') }}"
                class="active">
                 Home
             </a>
 
-            <a href="{{ url_for('assessment') }}">
-                Assessment
-            </a>
 
-            <a href="{{ url_for('history') }}">
-                History
-            </a>
+            {% if current_user.is_authenticated %}
 
-            <a href="{{ url_for('progress') }}">
-                Progress
-            </a>
+                <!-- LOGGED-IN NAVIGATION -->
+
+                <a href="{{ url_for('assessment') }}">
+                    Assessment
+                </a>
+
+                <a href="{{ url_for('history') }}">
+                    History
+                </a>
+
+                <a href="{{ url_for('progress') }}">
+                    Progress
+                </a>
+
+                <span class="welcome-user">
+                    Welcome, {{ current_user.username }}
+                </span>
+
+                <a href="{{ url_for('logout') }}"
+                   class="logout-link">
+                    Logout
+                </a>
+
+
+            {% else %}
+
+                <!-- VISITOR NAVIGATION -->
+
+                <a href="{{ url_for('login') }}"
+                   class="login-nav">
+                    Login
+                </a>
+
+                <a href="{{ url_for('register') }}"
+                   class="register-nav">
+                    Register
+                </a>
+
+            {% endif %}
 
         </nav>
 
@@ -61,749 +1157,410 @@
 
 
 
-<!-- ========================================================= -->
-<!-- HOME PAGE -->
-<!-- ========================================================= -->
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
 
-<main class="home-container">
+<main>
 
 
-    <!-- ===================================================== -->
-    <!-- HERO SECTION -->
-    <!-- ===================================================== -->
+    <!-- =====================================================
+         HERO SECTION
+         ===================================================== -->
 
-    <section class="hero-section">
+    <section class="hero">
+
 
         <div class="hero-content">
 
-
-            <div class="hero-badge">
-
-                <span class="status-dot"></span>
-
-                AI-POWERED DIGITAL WELLBEING
-
+            <div class="hero-label">
+                AI-Based Digital Wellbeing System
             </div>
 
 
             <h1>
-
                 Understand Your
-
-                <span>
-                    Digital Habits
-                </span>
-
+                <span>Digital Habits</span>
             </h1>
 
 
             <p class="hero-description">
 
-                SMADS helps you understand your social media
-                usage patterns, assess your addiction level,
-                and discover practical ways to build healthier
-                digital habits.
+                SMADS helps you understand your social media usage
+                patterns, identify your addiction level using a
+                Machine Learning model, and receive personalized
+                digital wellbeing recommendations.
 
             </p>
 
 
-            <div class="hero-actions">
+            <div class="hero-buttons">
 
-                <a href="{{ url_for('assessment') }}"
-                   class="hero-button">
+                {% if current_user.is_authenticated %}
 
-                    Start Assessment
+                    <a href="{{ url_for('assessment') }}"
+                       class="primary-button">
 
-                    <span>→</span>
+                        🔍
+                        Start Assessment
 
-                </a>
-
-
-                <a href="{{ url_for('progress') }}"
-                   class="hero-secondary">
-
-                    View Progress
-
-                </a>
-
-            </div>
+                    </a>
 
 
-            <div class="hero-note">
+                    <a href="{{ url_for('progress') }}"
+                       class="secondary-button">
 
-                <span>✓</span>
+                        📊
+                        View Progress
 
-                Takes only a few minutes
+                    </a>
 
-                <span class="note-divider">•</span>
 
-                Educational self-assessment
+                {% else %}
+
+                    <a href="{{ url_for('login') }}"
+                       class="primary-button">
+
+                        🔐
+                        Login to Start
+
+                    </a>
+
+
+                    <a href="{{ url_for('register') }}"
+                       class="secondary-button">
+
+                        📝
+                        Create Account
+
+                    </a>
+
+                {% endif %}
 
             </div>
 
         </div>
 
 
-        <!-- ================================================= -->
-        <!-- HERO VISUAL -->
-        <!-- ================================================= -->
+
+        <!-- =================================================
+             HERO RIGHT CARD
+             ================================================= -->
 
         <div class="hero-visual">
 
-            <div class="visual-card main-visual-card">
+            <div class="hero-card">
 
 
-                <div class="visual-top">
+                <div class="hero-card-top">
 
-                    <div>
-
-                        <span class="visual-label">
-                            DIGITAL WELLBEING
-                        </span>
-
-                        <h3>
-                            Your Digital Balance
-                        </h3>
-
+                    <div class="hero-card-icon">
+                        📱
                     </div>
 
-
-                    <div class="visual-icon">
-                        ✦
+                    <div class="status-dot">
+                        AI Powered
                     </div>
 
                 </div>
 
 
-                <div class="balance-circle">
-
-                    <div class="circle-inner">
-
-                        <span>
-                            SMADS
-                        </span>
-
-                        <strong>
-                            AI
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="visual-stats">
-
-
-                    <div class="visual-stat">
-
-                        <span>
-                            Assessment
-                        </span>
-
-                        <strong>
-                            AI
-                        </strong>
-
-                    </div>
-
-
-                    <div class="visual-stat">
-
-                        <span>
-                            Insights
-                        </span>
-
-                        <strong>
-                            Smart
-                        </strong>
-
-                    </div>
-
-
-                    <div class="visual-stat">
-
-                        <span>
-                            Progress
-                        </span>
-
-                        <strong>
-                            Track
-                        </strong>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-            <div class="floating-card floating-card-one">
-
-                <span class="floating-icon">
-                    ◈
-                </span>
-
-                <div>
-
-                    <small>
-                        AI Prediction
-                    </small>
-
-                    <strong>
-                        Personalized
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="floating-card floating-card-two">
-
-                <span class="floating-icon">
-                    ✓
-                </span>
-
-                <div>
-
-                    <small>
-                        Digital Wellbeing
-                    </small>
-
-                    <strong>
-                        Recommendations
-                    </strong>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================== -->
-    <!-- INTRODUCTION -->
-    <!-- ===================================================== -->
-
-    <section class="home-introduction">
-
-
-        <div class="home-section-heading">
-
-            <div class="home-eyebrow">
-                ABOUT SMADS
-            </div>
-
-
-            <h2>
-                A smarter way to understand
-                your social media habits
-            </h2>
-
-
-            <p>
-
-                Social media is part of everyday life.
-                SMADS provides a structured way to reflect
-                on your usage, understand potential risk
-                patterns, and monitor your digital wellbeing.
-
-            </p>
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- ===================================================== -->
-    <!-- FEATURES -->
-    <!-- ===================================================== -->
-
-    <section class="home-overview">
-
-
-        <div class="home-section-heading">
-
-            <div class="home-eyebrow">
-                CORE FEATURES
-            </div>
-
-
-            <h2>
-                Everything in one place
-            </h2>
-
-
-            <p>
-
-                From assessment to progress tracking,
-                SMADS brings the important parts of
-                digital wellbeing together.
-
-            </p>
-
-        </div>
-
-
-
-        <div class="feature-grid">
-
-
-            <!-- FEATURE 1 -->
-
-            <article class="feature-card">
-
-                <div class="feature-top">
-
-                    <div class="feature-icon">
-                        01
-                    </div>
-
-                    <span class="feature-arrow">
-                        →
-                    </span>
-
-                </div>
-
-
-                <h3>
-                    Digital Assessment
-                </h3>
+                <h2>
+                    Digital Wellbeing
+                </h2>
 
 
                 <p>
 
-                    Complete a structured assessment covering
-                    your social media usage, lifestyle,
-                    and wellbeing-related factors.
+                    Assess your social media habits and receive
+                    recommendations that can help you build healthier
+                    digital habits and monitor your progress over time.
 
                 </p>
 
 
-                <div class="feature-line"></div>
+                <div class="mini-stats">
+
+                    <div class="mini-stat">
+
+                        <strong>AI Analysis</strong>
+
+                        <span>
+                            Machine Learning
+                        </span>
+
+                    </div>
 
 
-                <span class="feature-tag">
-                    SELF ASSESSMENT
-                </span>
+                    <div class="mini-stat">
 
-            </article>
+                        <strong>Smart Insights</strong>
+
+                        <span>
+                            Personalized Results
+                        </span>
+
+                    </div>
+
+
+                    <div class="mini-stat">
+
+                        <strong>Progress</strong>
+
+                        <span>
+                            Track Your Journey
+                        </span>
+
+                    </div>
+
+
+                    <div class="mini-stat">
+
+                        <strong>Awareness</strong>
+
+                        <span>
+                            Better Digital Habits
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FEATURES
+         ===================================================== -->
+
+    <section class="features-section">
+
+
+        <div class="section-heading">
+
+            <div class="section-tag">
+                Platform Features
+            </div>
+
+            <h2>
+                What SMADS Provides
+            </h2>
+
+            <p>
+                Understand your usage, analyze your digital habits,
+                and monitor your digital wellbeing.
+            </p>
+
+        </div>
+
+
+
+        <div class="features">
+
+
+            <!-- FEATURE 1 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🔍
+                </div>
+
+                <h3>
+                    Addiction Assessment
+                </h3>
+
+                <p>
+                    Complete an assessment about your social media
+                    usage and wellbeing factors.
+                </p>
+
+            </div>
 
 
 
             <!-- FEATURE 2 -->
 
-            <article class="feature-card">
+            <div class="feature-card">
 
-                <div class="feature-top">
-
-                    <div class="feature-icon">
-                        02
-                    </div>
-
-                    <span class="feature-arrow">
-                        →
-                    </span>
-
+                <div class="feature-icon">
+                    🤖
                 </div>
-
 
                 <h3>
                     AI Prediction
                 </h3>
 
-
                 <p>
-
-                    A trained Random Forest machine-learning
-                    model analyzes the assessment information
-                    and predicts an addiction level.
-
+                    A Random Forest Machine Learning model predicts
+                    your social media addiction level.
                 </p>
 
-
-                <div class="feature-line"></div>
-
-
-                <span class="feature-tag">
-                    MACHINE LEARNING
-                </span>
-
-            </article>
+            </div>
 
 
 
             <!-- FEATURE 3 -->
 
-            <article class="feature-card">
+            <div class="feature-card">
 
-                <div class="feature-top">
-
-                    <div class="feature-icon">
-                        03
-                    </div>
-
-                    <span class="feature-arrow">
-                        →
-                    </span>
-
+                <div class="feature-icon">
+                    💡
                 </div>
 
-
                 <h3>
-                    Wellbeing Insights
+                    Personalized Recommendations
                 </h3>
 
-
                 <p>
-
-                    Understand important digital wellbeing
-                    factors such as screen time, sleep,
-                    mood, anxiety, and social comparison.
-
+                    Receive digital wellbeing suggestions based on
+                    your assessment results.
                 </p>
 
-
-                <div class="feature-line"></div>
-
-
-                <span class="feature-tag">
-                    DIGITAL WELLBEING
-                </span>
-
-            </article>
+            </div>
 
 
 
             <!-- FEATURE 4 -->
 
-            <article class="feature-card">
+            <div class="feature-card">
 
-                <div class="feature-top">
-
-                    <div class="feature-icon">
-                        04
-                    </div>
-
-                    <span class="feature-arrow">
-                        →
-                    </span>
-
+                <div class="feature-icon">
+                    📈
                 </div>
-
 
                 <h3>
                     Progress Tracking
                 </h3>
 
-
                 <p>
-
-                    Save previous assessments and compare
-                    your results over time to observe changes
-                    in your digital habits.
-
+                    Monitor your previous assessments and observe
+                    changes in your digital wellbeing over time.
                 </p>
 
-
-                <div class="feature-line"></div>
-
-
-                <span class="feature-tag">
-                    TRACK YOUR JOURNEY
-                </span>
-
-            </article>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================== -->
-    <!-- HOW IT WORKS -->
-    <!-- ===================================================== -->
-
-    <section class="home-process">
-
-
-        <div class="home-section-heading">
-
-            <div class="home-eyebrow">
-                HOW IT WORKS
             </div>
 
 
-            <h2>
-                From assessment to awareness
-            </h2>
 
+            <!-- FEATURE 5 -->
 
-            <p>
+            <div class="feature-card">
 
-                A simple process designed to help you
-                understand and manage your digital habits.
-
-            </p>
-
-        </div>
-
-
-
-        <div class="process-grid">
-
-
-            <article class="process-card">
-
-                <div class="process-number">
-                    01
+                <div class="feature-icon">
+                    🕒
                 </div>
 
+                <h3>
+                    Usage Awareness
+                </h3>
 
-                <div class="process-content">
+                <p>
+                    Understand how screen time, sleep and other
+                    digital habits relate to your assessment.
+                </p>
 
-                    <span>
-                        STEP ONE
-                    </span>
-
-                    <h3>
-                        Assess
-                    </h3>
-
-                    <p>
-
-                        Answer questions about your social
-                        media usage and wellbeing.
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <article class="process-card">
-
-                <div class="process-number">
-                    02
-                </div>
-
-
-                <div class="process-content">
-
-                    <span>
-                        STEP TWO
-                    </span>
-
-                    <h3>
-                        Analyze
-                    </h3>
-
-                    <p>
-
-                        Your information is processed using
-                        the trained machine-learning model.
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <article class="process-card">
-
-                <div class="process-number">
-                    03
-                </div>
-
-
-                <div class="process-content">
-
-                    <span>
-                        STEP THREE
-                    </span>
-
-                    <h3>
-                        Understand
-                    </h3>
-
-                    <p>
-
-                        View your predicted addiction level
-                        and related wellbeing insights.
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <article class="process-card">
-
-                <div class="process-number">
-                    04
-                </div>
-
-
-                <div class="process-content">
-
-                    <span>
-                        STEP FOUR
-                    </span>
-
-                    <h3>
-                        Improve
-                    </h3>
-
-                    <p>
-
-                        Explore practical recommendations
-                        and monitor your progress over time.
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================== -->
-    <!-- CTA -->
-    <!-- ===================================================== -->
-
-    <section class="home-cta">
-
-
-        <div class="cta-content">
-
-            <div class="cta-label">
-                READY TO BEGIN?
             </div>
 
 
-            <h2>
-                Take control of your
-                digital wellbeing
-            </h2>
 
+            <!-- FEATURE 6 -->
 
-            <p>
+            <div class="feature-card">
 
-                Start your assessment and get a clearer
-                picture of your current digital habits.
+                <div class="feature-icon">
+                    🌱
+                </div>
 
-            </p>
+                <h3>
+                    Digital Wellbeing
+                </h3>
+
+                <p>
+                    Build awareness of your digital habits and work
+                    toward healthier screen-use patterns.
+                </p>
+
+            </div>
+
 
         </div>
-
-
-        <a href="{{ url_for('assessment') }}"
-           class="cta-button">
-
-            Start Assessment
-
-            <span>
-                →
-            </span>
-
-        </a>
-
 
     </section>
 
 
 
-    <!-- ===================================================== -->
-    <!-- DISCLAIMER -->
-    <!-- ===================================================== -->
+    <!-- =====================================================
+         LOGGED-IN USER SECTION
+         ===================================================== -->
 
-    <div class="home-disclaimer">
+    {% if current_user.is_authenticated %}
 
-        <strong>
-            Important:
-        </strong>
+    <section class="logged-section">
 
-        SMADS is an educational and self-awareness
-        application. Its predicted addiction level is
-        not a medical diagnosis and should not replace
-        professional advice.
+        <div class="dashboard-card">
 
-    </div>
+            <h2>
+                Welcome back, {{ current_user.username }} 👋
+            </h2>
 
-
-
-    <!-- ===================================================== -->
-    <!-- FOOTER -->
-    <!-- ===================================================== -->
-
-    <footer class="home-footer">
+            <p>
+                Continue your digital wellbeing journey by taking
+                another assessment or checking your previous progress.
+            </p>
 
 
-        <div class="footer-brand">
+            <div class="hero-buttons">
 
-            <strong>
-                SMADS
-            </strong>
+                <a href="{{ url_for('assessment') }}"
+                   class="primary-button">
 
+                    Take Assessment
 
-            <span>
-                Social Media Addiction Detection System
-            </span>
-
-        </div>
+                </a>
 
 
-        <div class="footer-links">
+                <a href="{{ url_for('history') }}"
+                   class="secondary-button">
 
-            <a href="{{ url_for('home') }}">
-                Home
-            </a>
+                    View History
 
-            <a href="{{ url_for('assessment') }}">
-                Assessment
-            </a>
+                </a>
 
-            <a href="{{ url_for('history') }}">
-                History
-            </a>
-
-            <a href="{{ url_for('progress') }}">
-                Progress
-            </a>
+            </div>
 
         </div>
 
+    </section>
 
-        <p>
-            Digital wellbeing through awareness
-            and responsible technology use.
-        </p>
-
-
-    </footer>
+    {% endif %}
 
 
 </main>
+
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer>
+
+    <p>
+        SMADS – Social Media Addiction Detection System
+    </p>
+
+    <p>
+        AI-Based Digital Wellbeing Recommendation System
+    </p>
+
+</footer>
 
 
 </body>

@@ -911,9 +911,6 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 
-
-//home page css//
-```css
 /* =========================================================
    SMADS HOME PAGE
    ========================================================= */
@@ -4810,5 +4807,1052 @@ input[type="number"]::-webkit-outer-spin-button {
         width: 100%;
 
     }
+    
 
 }
+/* ========================================================= */
+/* LOGIN USER / LOGOUT */
+/* ========================================================= */
+
+.welcome-user {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 8px 12px;
+
+    margin-left: 10px;
+
+    border-radius: 8px;
+
+    background: rgba(99, 102, 241, 0.12);
+
+    color: #c7d2fe;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.logout-link {
+
+    color: #fca5a5 !important;
+
+}
+
+
+.logout-link:hover {
+
+    color: #fecaca !important;
+
+}
+/* =========================================
+   SMADS LOGIN PAGE
+   ========================================= */
+
+.auth-page {
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #0b1020;
+    font-family: Arial, sans-serif;
+}
+
+/* Main Login Box */
+.auth-container {
+    width: 100%;
+    max-width: 430px;
+    padding: 40px;
+
+    box-sizing: border-box;
+
+    background: #151b35;
+    border: 1px solid #28345f;
+    border-radius: 18px;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* SMADS Logo */
+.auth-logo {
+    text-align: center;
+
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: bold;
+
+    margin-bottom: 25px;
+}
+
+/* Heading */
+.auth-container h1 {
+    text-align: center;
+
+    color: #ffffff;
+    font-size: 28px;
+
+    margin: 0 0 10px;
+}
+
+/* Subtitle */
+.auth-subtitle {
+    text-align: center;
+
+    color: #aeb7d4;
+    font-size: 14px;
+    line-height: 1.5;
+
+    margin: 0 0 30px;
+}
+
+/* Input Field */
+.auth-field {
+    margin-bottom: 20px;
+}
+
+/* Labels */
+.auth-field label {
+    display: block;
+
+    color: #dce2f7;
+    font-size: 14px;
+    font-weight: 600;
+
+    margin-bottom: 8px;
+}
+
+/* Input Boxes */
+.auth-field input {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 14px;
+
+    box-sizing: border-box;
+
+    background: #0f1530;
+    border: 1px solid #35416f;
+    border-radius: 9px;
+
+    color: #ffffff;
+    font-size: 15px;
+
+    outline: none;
+}
+
+/* Placeholder */
+.auth-field input::placeholder {
+    color: #727c9f;
+}
+
+/* Input when clicked */
+.auth-field input:focus {
+    border-color: #6875ff;
+
+    box-shadow:
+        0 0 0 3px rgba(104, 117, 255, 0.15);
+}
+
+/* Login Button */
+.auth-button {
+    width: 100%;
+    height: 48px;
+
+    margin-top: 5px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #5865f2;
+
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+/* Button Hover */
+.auth-button:hover {
+    background: #4752c4;
+}
+
+/* Bottom Text */
+.auth-bottom {
+    text-align: center;
+
+    color: #aeb7d4;
+    font-size: 14px;
+
+    margin-top: 25px;
+}
+
+/* Create Account Link */
+.auth-bottom a {
+    color: #7f8cff;
+
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-bottom a:hover {
+    text-decoration: underline;
+}
+
+/* Flash Message */
+.auth-message {
+    padding: 12px 15px;
+
+    margin-bottom: 20px;
+
+    border-radius: 8px;
+
+    background: rgba(220, 53, 69, 0.15);
+    border: 1px solid rgba(220, 53, 69, 0.4);
+
+    color: #ff8c99;
+
+    font-size: 14px;
+    text-align: center;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .auth-page {
+        padding: 20px 15px;
+    }
+
+    .auth-container {
+        padding: 30px 22px;
+    }
+
+    .auth-container h1 {
+        font-size: 24px;
+    }
+
+    .auth-logo {
+        font-size: 28px;
+    }
+}
+
+/* =========================================================
+   SMADS — PROFESSIONAL HISTORY PAGE
+   Keeps existing dark navy / blue / purple theme
+   ========================================================= */
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.history-container {
+
+    width: min(1400px, 92%);
+
+    margin: 0 auto;
+
+    padding: 55px 0 45px;
+
+}
+
+
+/* =========================================================
+   PAGE HERO
+   ========================================================= */
+
+.history-hero {
+
+    text-align: center;
+
+    max-width: 850px;
+
+    margin: 0 auto 42px;
+
+}
+
+
+.history-eyebrow {
+
+    display: inline-block;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #9ca8ff;
+
+    margin-bottom: 14px;
+
+}
+
+
+.history-hero h1 {
+
+    margin: 0;
+
+    font-size: clamp(42px, 6vw, 72px);
+
+    line-height: 1.05;
+
+    font-weight: 800;
+
+    letter-spacing: -2px;
+
+    color: #f5f7ff;
+
+}
+
+
+.history-hero h1 span {
+
+    background: linear-gradient(
+        135deg,
+        #8b7cff,
+        #6ea8ff
+    );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    background-clip: text;
+
+}
+
+
+.history-hero p {
+
+    max-width: 720px;
+
+    margin: 22px auto 0;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    color: #8f9bb5;
+
+}
+
+
+/* =========================================================
+   SUMMARY CARD
+   ========================================================= */
+
+.history-summary {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    width: 100%;
+
+    max-width: 420px;
+
+    margin: 0 auto 35px;
+
+    padding: 20px 24px;
+
+    border: 1px solid rgba(112, 129, 190, 0.20);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(31, 45, 79, 0.72),
+            rgba(18, 29, 55, 0.88)
+        );
+
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.20);
+
+}
+
+
+.summary-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(112, 91, 255, 0.25),
+        rgba(83, 143, 255, 0.20)
+    );
+
+    font-size: 24px;
+
+}
+
+
+.summary-content {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.summary-content span {
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    color: #8794b5;
+
+}
+
+
+.summary-content strong {
+
+    margin-top: 2px;
+
+    font-size: 26px;
+
+    color: #f4f6ff;
+
+}
+
+
+.summary-content p {
+
+    margin: 1px 0 0;
+
+    font-size: 12px;
+
+    color: #78859f;
+
+}
+
+
+/* =========================================================
+   HISTORY CARD
+   ========================================================= */
+
+.history-card {
+
+    overflow: hidden;
+
+    border: 1px solid rgba(111, 130, 190, 0.20);
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(23, 35, 65, 0.92),
+            rgba(13, 25, 49, 0.96)
+        );
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.28);
+
+}
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.history-card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 28px 30px;
+
+    border-bottom: 1px solid rgba(111, 130, 190, 0.13);
+
+}
+
+
+.history-card-label {
+
+    margin-bottom: 6px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.7px;
+
+    color: #7f8dff;
+
+}
+
+
+.history-card-header h2 {
+
+    margin: 0;
+
+    color: #f2f5ff;
+
+    font-size: 25px;
+
+}
+
+
+.history-card-header p {
+
+    margin: 7px 0 0;
+
+    color: #7887a5;
+
+    font-size: 13px;
+
+}
+
+
+.history-card-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: rgba(103, 91, 255, 0.14);
+
+    border: 1px solid rgba(123, 112, 255, 0.20);
+
+    font-size: 22px;
+
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+.history-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    scrollbar-width: thin;
+
+    scrollbar-color: #6255f5 #17233e;
+
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.history-table {
+
+    width: 100%;
+
+    min-width: 1250px;
+
+    border-collapse: separate;
+
+    border-spacing: 0;
+
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.history-table thead th {
+
+    padding: 17px 18px;
+
+    text-align: left;
+
+    white-space: nowrap;
+
+    background: rgba(29, 43, 75, 0.80);
+
+    color: #aebcff;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    border-bottom: 1px solid rgba(112, 130, 187, 0.17);
+
+}
+
+
+.history-table thead th:first-child {
+
+    padding-left: 28px;
+
+}
+
+
+/* =========================================================
+   TABLE ROWS
+   ========================================================= */
+
+.history-table tbody tr {
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.history-table tbody tr:hover {
+
+    background: rgba(92, 106, 190, 0.08);
+
+}
+
+
+.history-table tbody td {
+
+    padding: 19px 18px;
+
+    white-space: nowrap;
+
+    color: #c3cce0;
+
+    font-size: 13px;
+
+    border-bottom: 1px solid rgba(112, 130, 187, 0.09);
+
+}
+
+
+.history-table tbody tr:last-child td {
+
+    border-bottom: none;
+
+}
+
+
+.history-table tbody td:first-child {
+
+    padding-left: 28px;
+
+}
+
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+.date-cell {
+
+    min-width: 130px;
+
+}
+
+
+.date-main {
+
+    font-weight: 700;
+
+    color: #dce3f4;
+
+}
+
+
+.date-time {
+
+    margin-top: 3px;
+
+    font-size: 11px;
+
+    color: #71809e;
+
+}
+
+
+/* =========================================================
+   METRICS
+   ========================================================= */
+
+.metric-cell {
+
+    font-weight: 700;
+
+    color: #d4dcf0 !important;
+
+}
+
+
+.metric-cell span {
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    color: #73819e;
+
+}
+
+
+/* =========================================================
+   ADDICTION BADGES
+   ========================================================= */
+
+.history-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 88px;
+
+    padding: 7px 13px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.2px;
+
+}
+
+
+.badge-low {
+
+    color: #6ee7b7;
+
+    background: rgba(52, 211, 153, 0.12);
+
+    border: 1px solid rgba(52, 211, 153, 0.25);
+
+}
+
+
+.badge-moderate {
+
+    color: #ffc94d;
+
+    background: rgba(245, 158, 11, 0.12);
+
+    border: 1px solid rgba(245, 158, 11, 0.25);
+
+}
+
+
+.badge-high {
+
+    color: #ff7f96;
+
+    background: rgba(239, 68, 68, 0.12);
+
+    border: 1px solid rgba(239, 68, 68, 0.25);
+
+}
+
+
+.badge-default {
+
+    color: #aebcff;
+
+    background: rgba(100, 116, 200, 0.12);
+
+    border: 1px solid rgba(100, 116, 200, 0.25);
+
+}
+
+
+/* =========================================================
+   EMPTY VALUES
+   ========================================================= */
+
+.empty-value {
+
+    color: #4e5b75;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.history-empty {
+
+    text-align: center;
+
+    padding: 70px 30px;
+
+}
+
+
+.empty-icon {
+
+    width: 70px;
+
+    height: 70px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: rgba(103, 91, 255, 0.12);
+
+    font-size: 30px;
+
+}
+
+
+.history-empty h3 {
+
+    margin: 0;
+
+    font-size: 22px;
+
+    color: #eef2ff;
+
+}
+
+
+.history-empty p {
+
+    max-width: 500px;
+
+    margin: 10px auto 25px;
+
+    line-height: 1.6;
+
+    color: #7d8aa5;
+
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.history-actions {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 16px;
+
+    margin: 34px 0 40px;
+
+}
+
+
+.history-primary-button,
+.history-secondary-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    min-width: 205px;
+
+    padding: 14px 23px;
+
+    border-radius: 13px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+.history-primary-button {
+
+    color: white;
+
+    background: linear-gradient(
+        135deg,
+        #6d54f5,
+        #7b3ff2
+    );
+
+    box-shadow:
+        0 10px 28px rgba(103, 73, 245, 0.24);
+
+}
+
+
+.history-primary-button:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 35px rgba(103, 73, 245, 0.36);
+
+}
+
+
+.history-secondary-button {
+
+    color: #d8def0;
+
+    background: rgba(29, 43, 72, 0.75);
+
+    border: 1px solid rgba(112, 130, 190, 0.18);
+
+}
+
+
+.history-secondary-button:hover {
+
+    transform: translateY(-2px);
+
+    background: rgba(40, 56, 91, 0.85);
+
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.history-footer {
+
+    text-align: center;
+
+    padding: 10px 0 20px;
+
+    color: #53617b;
+
+    font-size: 12px;
+
+}
+
+
+.history-footer strong {
+
+    color: #687694;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .history-container {
+
+        width: 94%;
+
+        padding-top: 35px;
+
+    }
+
+
+    .history-hero h1 {
+
+        font-size: 42px;
+
+    }
+
+
+    .history-hero p {
+
+        font-size: 14px;
+
+    }
+
+
+    .history-card-header {
+
+        padding: 22px;
+
+    }
+
+
+    .history-card-icon {
+
+        display: none;
+
+    }
+
+
+    .history-actions {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .history-primary-button,
+    .history-secondary-button {
+
+        width: 100%;
+
+    }
+

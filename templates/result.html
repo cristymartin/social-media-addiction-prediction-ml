@@ -163,7 +163,7 @@
             <div class="confidence-bar">
 
                 <div class="confidence-fill"
-                     style="width: {{ confidence }}%;">
+                    data-confidence="{{ confidence|default(0) }}">
                 </div>
 
             </div>
@@ -482,6 +482,17 @@
 
 
 </main>
+<script>
+    const confidenceFill = document.querySelector(".confidence-fill");
+
+    if (confidenceFill) {
+        const confidence = parseFloat(
+            confidenceFill.dataset.confidence
+        ) || 0;
+
+        confidenceFill.style.width = confidence + "%";
+    }
+</script>
 
 
 </body>

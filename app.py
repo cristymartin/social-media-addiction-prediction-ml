@@ -1,70 +1,87 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
+
+from flask_login import (
+    LoginManager,
+    UserMixin,
+    login_user,
+    logout_user,
+    login_required,
+    current_user
+)
+
+from werkzeug.security import (
+    generate_password_hash,
+    check_password_hash
+)
+
+import sqlite3
+import os
 import joblib
 import pandas as pd
-import os
-import sqlite3
-from datetime import datetime
 
 
-# ============================================================
+# =========================================================
 # FLASK APPLICATION
-# ============================================================
+# =========================================================
 
 app = Flask(__name__)
 
-
-# ============================================================
-# BASE DIRECTORY
-# ============================================================
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app.secret_key = "smads_secret_key_2026"
 
 
-# ============================================================
+# =========================================================
+# FLASK LOGIN CONFIGURATION
+# =========================================================
+
+login_manager = LoginManager()
+
+login_manager.init_app(app)
+
+login_manager.login_view = "login"
+
+login_manager.login_message = "Please login to continue."
+
+login_manager.login_message_category = "error"
+
+
+# =========================================================
 # MODEL PATHS
-# ============================================================
+# =========================================================
 
 MODEL_PATH = os.path.join(
-    BASE_DIR,
     "model",
     "random_forest_addiction_model.pkl"
 )
 
-MAPPING_PATH = os.path.join(
-    BASE_DIR,
+LABEL_MAPPING_PATH = os.path.join(
     "model",
     "label_mapping.pkl"
 )
 
-
-# ============================================================
-# DATABASE PATH
-# ============================================================
-
-DATABASE_PATH = os.path.join(
-    BASE_DIR,
-    "predictions.db"
+FEATURE_COLUMNS_PATH = os.path.join(
+    "model",
+    "feature_columns.pkl"
 )
 
 
-# ============================================================
-# LOAD MODEL
-# ============================================================
+# =========================================================
+# LOAD MACHINE LEARNING MODEL
+# =========================================================
 
 model = joblib.load(MODEL_PATH)
 
 
-# ============================================================
+# =========================================================
 # LOAD LABEL MAPPING
-# ============================================================
+# =========================================================
 
-if os.path.exists(MAPPING_PATH):
+try:
 
     label_mapping = joblib.load(
-        MAPPING_PATH
+        LABEL_MAPPING_PATH
     )
 
-else:
+except Exception:
 
     label_mapping = {
         0: "Low",
@@ -73,34 +90,88 @@ else:
     }
 
 
-# ============================================================
-# INITIALIZE DATABASE
-# ============================================================
+# =========================================================
+# LOAD FEATURE COLUMNS
+# =========================================================
 
-def init_db():
+try:
 
-    conn = sqlite3.connect(
-        DATABASE_PATH
+    feature_columns = joblib.load(
+        FEATURE_COLUMNS_PATH
     )
 
-    cursor = conn.cursor()
+except Exception:
+
+    feature_columns = None
+
+
+# =========================================================
+# DATABASE CONNECTION
+# =========================================================
+
+def get_db_connection():
+
+    connection = sqlite3.connect(
+        "users.db"
+    )
+
+    connection.row_factory = sqlite3.Row
+
+    return connection
+
+
+# =========================================================
+# CREATE / UPDATE DATABASE TABLES
+# =========================================================
+
+def create_tables():
+
+    connection = get_db_connection()
+
+    cursor = connection.cursor()
+
+
+    # =====================================================
+    # USERS TABLE
+    # =====================================================
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            username TEXT NOT NULL UNIQUE,
+
+            email TEXT NOT NULL UNIQUE,
+
+            password TEXT NOT NULL
+
+        )
+    """)
+
+
+    # =====================================================
+    # PREDICTIONS TABLE
+    # =====================================================
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS predictions (
 
             id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-            date_time TEXT NOT NULL,
+            user_id INTEGER NOT NULL,
 
             addiction_level TEXT NOT NULL,
+
+            prediction_confidence REAL,
 
             daily_screen_hours REAL,
 
             avg_sleep_hours REAL,
 
-            anxiety_score REAL,
+            anxiety REAL,
 
-            low_mood_score REAL,
+            low_mood REAL,
 
             life_satisfaction REAL,
 
@@ -108,397 +179,458 @@ def init_db():
 
             self_esteem REAL,
 
-            fomo_score REAL,
+            fomo REAL,
 
             social_comparison REAL,
 
-            physical_activity_days REAL
+            physical_activity REAL,
+
+            created_at TIMESTAMP
+                DEFAULT CURRENT_TIMESTAMP,
+
+            FOREIGN KEY (user_id)
+                REFERENCES users(id)
 
         )
     """)
 
-    conn.commit()
 
-    conn.close()
+    # =====================================================
+    # CHECK EXISTING COLUMNS
+    # =====================================================
 
+    cursor.execute(
+        "PRAGMA table_info(predictions)"
+    )
 
-# Create database automatically
-init_db()
-
-
-# ============================================================
-# DIGITAL WELLBEING RECOMMENDATIONS
-# ============================================================
-
-def get_recommendations(
-    addiction_level,
-    screen_hours,
-    sleep_hours,
-    physical_activity,
-    anxiety_score,
-    low_mood_score,
-    life_satisfaction,
-    loneliness,
-    self_esteem,
-    fomo,
-    social_comparison
-):
-
-    recommendations = []
+    existing_columns = [
+        column[1]
+        for column in cursor.fetchall()
+    ]
 
 
-    # ========================================================
-    # LOW ADDICTION
-    # ========================================================
+    # =====================================================
+    # ADD MISSING COLUMNS TO OLD DATABASE
+    # =====================================================
 
-    if addiction_level == "Low":
+    columns_to_add = {
 
-        recommendations.append(
-            "Continue maintaining healthy and balanced social media habits."
-        )
+        "anxiety": "REAL",
 
-        recommendations.append(
-            "Take short breaks during long periods of screen use."
-        )
+        "low_mood": "REAL",
 
-        recommendations.append(
-            "Keep unnecessary social media notifications turned off."
-        )
+        "life_satisfaction": "REAL",
 
-        # Screen time
+        "loneliness": "REAL",
 
-        if screen_hours >= 4:
+        "self_esteem": "REAL",
 
-            recommendations.append(
-                "Your reported screen time is somewhat high. "
-                "Try reducing unnecessary scrolling gradually."
+        "fomo": "REAL",
+
+        "social_comparison": "REAL",
+
+        "physical_activity": "REAL"
+    }
+
+
+    for column_name, column_type in columns_to_add.items():
+
+        if column_name not in existing_columns:
+
+            cursor.execute(
+                f"""
+                ALTER TABLE predictions
+                ADD COLUMN {column_name} {column_type}
+                """
             )
 
 
-        # Sleep
+    connection.commit()
 
-        if sleep_hours < 7:
-
-            recommendations.append(
-                "Try to maintain a regular sleep schedule "
-                "and avoid social media close to bedtime."
-            )
+    connection.close()
 
 
-        # Physical activity
+# =========================================================
+# CREATE / UPDATE TABLES
+# =========================================================
 
-        if physical_activity < 3:
-
-            recommendations.append(
-                "Include more physical activity during the week "
-                "and replace some screen time with exercise or outdoor activities."
-            )
+create_tables()
 
 
-        # FOMO
+# =========================================================
+# USER CLASS
+# =========================================================
 
-        if fomo >= 7:
+class User(UserMixin):
 
-            recommendations.append(
-                "If FOMO causes frequent checking, "
-                "try checking social media only at planned times."
-            )
+    def __init__(
+        self,
+        id,
+        username,
+        email
+    ):
 
+        self.id = id
 
-        # Social comparison
+        self.username = username
 
-        if social_comparison >= 7:
-
-            recommendations.append(
-                "Consider reducing exposure to content "
-                "that causes excessive social comparison."
-            )
-
-
-        # Loneliness
-
-        if loneliness >= 7:
-
-            recommendations.append(
-                "Try spending more quality time with friends, "
-                "family, or supportive people."
-            )
+        self.email = email
 
 
-        # Self-esteem
+# =========================================================
+# FLASK-LOGIN USER LOADER
+# =========================================================
 
-        if self_esteem <= 4:
+@login_manager.user_loader
+def load_user(user_id):
 
-            recommendations.append(
-                "Focus on your strengths and personal achievements "
-                "rather than comparing yourself with others online."
-            )
+    connection = get_db_connection()
+
+    user = connection.execute(
+        """
+        SELECT *
+        FROM users
+        WHERE id = ?
+        """,
+        (user_id,)
+    ).fetchone()
+
+    connection.close()
 
 
-    # ========================================================
-    # MODERATE ADDICTION
-    # ========================================================
+    if user:
 
-    elif addiction_level == "Moderate":
-
-        recommendations.append(
-            "Set a daily social media time limit "
-            "and gradually reduce unnecessary usage."
-        )
-
-        recommendations.append(
-            "Turn off non-essential social media notifications "
-            "to reduce frequent checking."
-        )
-
-        recommendations.append(
-            "Create at least one 30-minute screen-free period every day."
-        )
-
-        recommendations.append(
-            "Avoid checking social media immediately after waking up."
-        )
-
-        recommendations.append(
-            "Keep your phone away while studying, working, "
-            "or performing important tasks."
+        return User(
+            user["id"],
+            user["username"],
+            user["email"]
         )
 
 
-        # Screen time
-
-        if screen_hours >= 5:
-
-            recommendations.append(
-                "Your reported screen time is relatively high. "
-                "Try reducing it gradually by 15–30 minutes each day."
-            )
+    return None
 
 
-        # Sleep
+# =========================================================
+# LOGIN
+# =========================================================
 
-        if sleep_hours < 7:
+@app.route(
+    "/login",
+    methods=["GET", "POST"]
+)
+def login():
 
-            recommendations.append(
-                "Avoid social media before bedtime "
-                "and keep your phone away while sleeping."
-            )
+    if current_user.is_authenticated:
 
-
-        # Physical activity
-
-        if physical_activity < 3:
-
-            recommendations.append(
-                "Replace some social media time with walking, "
-                "exercise, hobbies, or outdoor activities."
-            )
-
-
-        # FOMO
-
-        if fomo >= 7:
-
-            recommendations.append(
-                "Your FOMO score is high. "
-                "Try scheduled social-media checking instead of repeatedly checking for updates."
-            )
-
-
-        # Social comparison
-
-        if social_comparison >= 7:
-
-            recommendations.append(
-                "Your social comparison score is high. "
-                "Consider muting or unfollowing content that negatively affects your wellbeing."
-            )
-
-
-        # Anxiety
-
-        if anxiety_score >= 15:
-
-            recommendations.append(
-                "Your anxiety-related responses are relatively elevated. "
-                "Consider regular screen-free breaks and calming offline activities."
-            )
-
-
-        # Low mood
-
-        if low_mood_score >= 15:
-
-            recommendations.append(
-                "Your low-mood responses are relatively elevated. "
-                "Try incorporating enjoyable offline activities, "
-                "exercise, and supportive social interaction."
-            )
-
-
-        # Loneliness
-
-        if loneliness >= 7:
-
-            recommendations.append(
-                "Try increasing meaningful offline interaction "
-                "with friends, family, or people you trust."
-            )
-
-
-        # Self-esteem
-
-        if self_esteem <= 4:
-
-            recommendations.append(
-                "Focus on personal achievements and strengths "
-                "instead of comparing yourself with people online."
-            )
-
-
-    # ========================================================
-    # HIGH ADDICTION
-    # ========================================================
-
-    elif addiction_level == "High":
-
-        recommendations.append(
-            "Set a strict daily limit for social media applications."
-        )
-
-        recommendations.append(
-            "Turn off unnecessary notifications "
-            "and avoid repeated checking of social media."
-        )
-
-        recommendations.append(
-            "Create regular phone-free periods during the day."
-        )
-
-        recommendations.append(
-            "Consider removing highly distracting social media applications "
-            "from your home screen or temporarily restricting them."
-        )
-
-        recommendations.append(
-            "Replace some social media time with exercise, "
-            "hobbies, study, or offline social activities."
+        return redirect(
+            url_for("home")
         )
 
 
-        # Screen time
+    if request.method == "POST":
 
-        if screen_hours >= 6:
+        email = request.form.get(
+            "email",
+            ""
+        ).strip().lower()
 
-            recommendations.append(
-                "Your reported screen time is high. "
-                "Consider following a structured gradual reduction plan "
-                "rather than making a sudden change."
+        password = request.form.get(
+            "password",
+            ""
+        )
+
+
+        # =================================================
+        # FIND USER
+        # =================================================
+
+        connection = get_db_connection()
+
+        user = connection.execute(
+            """
+            SELECT *
+            FROM users
+            WHERE email = ?
+            """,
+            (email,)
+        ).fetchone()
+
+        connection.close()
+
+
+        # =================================================
+        # CHECK PASSWORD
+        # =================================================
+
+        if user and check_password_hash(
+            user["password"],
+            password
+        ):
+
+            logged_user = User(
+                user["id"],
+                user["username"],
+                user["email"]
+            )
+
+            login_user(logged_user)
+
+
+            flash(
+                "Login successful!",
+                "success"
             )
 
 
-        # Sleep
-
-        if sleep_hours < 7:
-
-            recommendations.append(
-                "Avoid social media close to bedtime "
-                "and keep your phone away from your sleeping area when possible."
+            return redirect(
+                url_for("home")
             )
 
 
-        # Physical activity
+        else:
 
-        if physical_activity < 3:
-
-            recommendations.append(
-                "Increase physical activity during the week "
-                "and use it as an alternative to unnecessary screen time."
+            flash(
+                "Invalid email or password.",
+                "error"
             )
 
 
-        # FOMO
+    return render_template(
+        "login.html"
+    )
 
-        if fomo >= 7:
 
-            recommendations.append(
-                "Your FOMO score is high. "
-                "Try checking social media only at scheduled times "
-                "rather than whenever you feel the urge to check."
+# =========================================================
+# REGISTER
+# =========================================================
+
+@app.route(
+    "/register",
+    methods=["GET", "POST"]
+)
+def register():
+
+    if current_user.is_authenticated:
+
+        return redirect(
+            url_for("home")
+        )
+
+
+    if request.method == "POST":
+
+        username = request.form.get(
+            "username",
+            ""
+        ).strip()
+
+        email = request.form.get(
+            "email",
+            ""
+        ).strip().lower()
+
+        password = request.form.get(
+            "password",
+            ""
+        )
+
+        confirm_password = request.form.get(
+            "confirm_password",
+            ""
+        )
+
+
+        # =================================================
+        # CHECK EMPTY FIELDS
+        # =================================================
+
+        if not username or not email or not password:
+
+            flash(
+                "Please fill in all fields.",
+                "error"
+            )
+
+            return redirect(
+                url_for("register")
             )
 
 
-        # Social comparison
+        # =================================================
+        # CHECK PASSWORD
+        # =================================================
 
-        if social_comparison >= 7:
+        if password != confirm_password:
 
-            recommendations.append(
-                "Your social comparison score is high. "
-                "Consider muting or unfollowing accounts "
-                "that encourage unhealthy comparison."
+            flash(
+                "Passwords do not match.",
+                "error"
+            )
+
+            return redirect(
+                url_for("register")
             )
 
 
-        # Anxiety
+        # =================================================
+        # PASSWORD LENGTH
+        # =================================================
 
-        if anxiety_score >= 15:
+        if len(password) < 6:
 
-            recommendations.append(
-                "Your anxiety-related responses are relatively elevated. "
-                "Include regular screen-free periods and calming offline activities."
+            flash(
+                "Password must contain at least 6 characters.",
+                "error"
+            )
+
+            return redirect(
+                url_for("register")
             )
 
 
-        # Low mood
+        # =================================================
+        # DATABASE CONNECTION
+        # =================================================
 
-        if low_mood_score >= 15:
+        connection = get_db_connection()
 
-            recommendations.append(
-                "Your low-mood responses are relatively elevated. "
-                "Try maintaining offline activities, "
-                "physical activity, and supportive social connections."
+
+        # =================================================
+        # CHECK EMAIL
+        # =================================================
+
+        existing_email = connection.execute(
+            """
+            SELECT *
+            FROM users
+            WHERE email = ?
+            """,
+            (email,)
+        ).fetchone()
+
+
+        if existing_email:
+
+            connection.close()
+
+            flash(
+                "Email already registered.",
+                "error"
+            )
+
+            return redirect(
+                url_for("register")
             )
 
 
-        # Loneliness
+        # =================================================
+        # CHECK USERNAME
+        # =================================================
 
-        if loneliness >= 7:
+        existing_username = connection.execute(
+            """
+            SELECT *
+            FROM users
+            WHERE username = ?
+            """,
+            (username,)
+        ).fetchone()
 
-            recommendations.append(
-                "Try increasing meaningful offline interaction "
-                "with friends, family, or people you trust."
+
+        if existing_username:
+
+            connection.close()
+
+            flash(
+                "Username already exists.",
+                "error"
+            )
+
+            return redirect(
+                url_for("register")
             )
 
 
-        # Self-esteem
+        # =================================================
+        # HASH PASSWORD
+        # =================================================
 
-        if self_esteem <= 4:
+        hashed_password = generate_password_hash(
+            password
+        )
 
-            recommendations.append(
-                "Focus on your strengths and achievements "
-                "rather than comparing yourself with others online."
+
+        # =================================================
+        # INSERT USER
+        # =================================================
+
+        connection.execute(
+            """
+            INSERT INTO users
+            (
+                username,
+                email,
+                password
             )
-
-
-        # Professional support
-
-        if anxiety_score >= 15 or low_mood_score >= 15:
-
-            recommendations.append(
-                "If social media use is causing significant distress "
-                "or interfering with daily life, consider discussing "
-                "your concerns with a qualified mental-health professional."
+            VALUES (?, ?, ?)
+            """,
+            (
+                username,
+                email,
+                hashed_password
             )
+        )
 
 
-    return recommendations
+        connection.commit()
+
+        connection.close()
 
 
-# ============================================================
+        flash(
+            "Registration successful. Please login.",
+            "success"
+        )
+
+
+        return redirect(
+            url_for("login")
+        )
+
+
+    return render_template(
+        "register.html"
+    )
+
+
+# =========================================================
+# LOGOUT
+# =========================================================
+
+@app.route("/logout")
+@login_required
+def logout():
+
+    logout_user()
+
+
+    flash(
+        "You have been logged out.",
+        "success"
+    )
+
+
+    return redirect(
+        url_for("login")
+    )
+
+
+# =========================================================
 # HOME PAGE
-# ============================================================
+# =========================================================
 
 @app.route("/")
+@login_required
 def home():
 
     return render_template(
@@ -506,148 +638,250 @@ def home():
     )
 
 
-# ============================================================
+# =========================================================
 # ASSESSMENT PAGE
-# ============================================================
+# =========================================================
 
 @app.route("/assessment")
+@login_required
 def assessment():
 
     return render_template(
         "index.html"
     )
 
-# ============================================================
-# PREDICTION
-# ============================================================
 
-@app.route("/predict", methods=["POST"])
+# =========================================================
+# PREDICTION
+# =========================================================
+
+@app.route(
+    "/predict",
+    methods=["POST"]
+)
+@login_required
 def predict():
 
     try:
 
-        # ====================================================
+        # =================================================
         # BASIC INFORMATION
-        # ====================================================
+        # =================================================
 
-        age = int(
-            request.form.get("age")
+        age = float(
+            request.form.get(
+                "age",
+                0
+            )
         )
+
 
         gender = request.form.get(
-            "gender"
+            "gender",
+            "Male"
         )
+
 
         occupation = request.form.get(
-            "occupation"
+            "occupation",
+            "Student"
         )
+
 
         region = request.form.get(
-            "region"
+            "region",
+            "Kerala"
         )
 
+
         platform = request.form.get(
-            "most_used_platform"
+            "most_used_platform",
+            "Instagram"
         )
+
+
+        platforms_used_count = int(
+            request.form.get(
+                "platforms_used_count",
+                1
+            )
+        )
+
 
         daily_screen_hours = float(
             request.form.get(
-                "daily_screen_hours"
+                "daily_screen_hours",
+                0
             )
         )
+
+
+        night_time_use = int(
+            request.form.get(
+                "night_time_use",
+                0
+            )
+        )
+
+
+        minutes_to_first_check = float(
+            request.form.get(
+                "minutes_to_first_check_after_waking",
+                30
+            )
+        )
+
+
+        primary_purpose = request.form.get(
+            "primary_purpose",
+            "Entertainment"
+        )
+
 
         avg_sleep_hours = float(
             request.form.get(
-                "avg_sleep_hours"
+                "avg_sleep_hours",
+                0
             )
         )
 
 
-        # ====================================================
-        # QUESTIONNAIRE SCORES
-        # ====================================================
+        # =================================================
+        # MENTAL WELLBEING SCORES
+        # =================================================
 
-        anxiety_score = int(
+        anxiety = float(
             request.form.get(
-                "anxiety_score_0to27"
+                "anxiety_score_0to27",
+                0
             )
         )
 
-        low_mood_score = int(
+
+        low_mood = float(
             request.form.get(
-                "low_mood_score_0to27"
+                "low_mood_score_0to27",
+                0
             )
         )
 
-        life_satisfaction = int(
+
+        life_satisfaction = float(
             request.form.get(
-                "life_satisfaction"
+                "life_satisfaction_1to10",
+                5
             )
         )
 
-        loneliness = int(
+
+        loneliness = float(
             request.form.get(
-                "loneliness"
+                "loneliness_1to10",
+                5
             )
         )
 
-        self_esteem = int(
+
+        self_esteem = float(
             request.form.get(
-                "self_esteem"
+                "self_esteem_1to10",
+                5
             )
         )
 
-        fomo = int(
+
+        fomo = float(
             request.form.get(
-                "fomo"
+                "fomo_1to10",
+                5
             )
         )
 
-        social_comparison = int(
+
+        social_comparison = float(
             request.form.get(
-                "social_comparison"
+                "social_comparison_1to10",
+                5
             )
         )
 
 
-        # ====================================================
-        # PHYSICAL ACTIVITY
-        # ====================================================
-
-        physical_activity = int(
+        physical_activity = float(
             request.form.get(
-                "physical_activity"
+                "physical_activity_days_per_week",
+                0
             )
         )
 
 
-        # ====================================================
-        # CREATE USER DATAFRAME
-        # ====================================================
+        uses_screen_time_limits = int(
+            request.form.get(
+                "uses_screen_time_limits",
+                0
+            )
+        )
 
-        user_data = pd.DataFrame([{
 
-            "age": age,
+        attempted_digital_detox = int(
+            request.form.get(
+                "attempted_digital_detox",
+                0
+            )
+        )
 
-            "gender": gender,
 
-            "occupation": occupation,
+        seeks_mental_health_support = int(
+            request.form.get(
+                "seeks_mental_health_support",
+                0
+            )
+        )
 
-            "region": region,
 
-            "most_used_platform": platform,
+        # =================================================
+        # CREATE INPUT DATA
+        # =================================================
+
+        input_data = {
+
+            "age":
+                age,
+
+            "gender":
+                gender,
+
+            "occupation":
+                occupation,
+
+            "region":
+                region,
+
+            "most_used_platform":
+                platform,
+
+            "platforms_used_count":
+                platforms_used_count,
 
             "daily_screen_hours":
                 daily_screen_hours,
+
+            "night_time_use":
+                night_time_use,
+
+            "minutes_to_first_check_after_waking":
+                minutes_to_first_check,
+
+            "primary_purpose":
+                primary_purpose,
 
             "avg_sleep_hours":
                 avg_sleep_hours,
 
             "anxiety_score_0to27":
-                anxiety_score,
+                anxiety,
 
             "low_mood_score_0to27":
-                low_mood_score,
+                low_mood,
 
             "life_satisfaction_1to10":
                 life_satisfaction,
@@ -664,70 +898,101 @@ def predict():
             "social_comparison_1to10":
                 social_comparison,
 
-            "physical_activity_days":
-                physical_activity
+            "physical_activity_days_per_week":
+                physical_activity,
 
-        }])
+            "uses_screen_time_limits":
+                uses_screen_time_limits,
+
+            "attempted_digital_detox":
+                attempted_digital_detox,
+
+            "seeks_mental_health_support":
+                seeks_mental_health_support
+        }
 
 
-        # ====================================================
-        # PREPROCESSING
-        # ====================================================
+        # =================================================
+        # CONVERT TO DATAFRAME
+        # =================================================
 
-        user_data = pd.get_dummies(
-
-            user_data,
-
-            columns=[
-                "gender",
-                "occupation",
-                "region",
-                "most_used_platform"
-            ]
-
+        input_df = pd.DataFrame(
+            [input_data]
         )
 
 
-        # ====================================================
+        # =================================================
+        # ONE-HOT ENCODING
+        # =================================================
+
+        input_df = pd.get_dummies(
+            input_df
+        )
+
+
+        # =================================================
         # MATCH MODEL FEATURES
-        # ====================================================
+        # =================================================
 
-        if hasattr(
-            model,
-            "feature_names_in_"
-        ):
+        if feature_columns is not None:
 
-            expected_features = (
-                model.feature_names_in_
-            )
-
-            user_data = user_data.reindex(
-
-                columns=expected_features,
-
+            input_df = input_df.reindex(
+                columns=feature_columns,
                 fill_value=0
-
             )
 
 
-        # ====================================================
-        # MODEL PREDICTION
-        # ====================================================
+        # =================================================
+        # MACHINE LEARNING PREDICTION
+        # =================================================
 
         prediction = model.predict(
-            user_data
-        )
-
-        predicted_class = int(
-            prediction[0]
-        )
+            input_df
+        )[0]
 
 
-        # ====================================================
-        # PREDICTION PROBABILITY
-        # ====================================================
+        # =================================================
+        # CONVERT PREDICTION TO INTEGER
+        # =================================================
+
+        try:
+
+            prediction_int = int(
+                prediction
+            )
+
+        except Exception:
+
+            prediction_int = prediction
+
+
+        # =================================================
+        # GET ADDICTION LEVEL
+        # =================================================
+
+        if isinstance(
+            label_mapping,
+            dict
+        ):
+
+            addiction_level = label_mapping.get(
+                prediction_int,
+                str(prediction)
+            )
+
+        else:
+
+            addiction_level = str(
+                prediction
+            )
+
+
+        # =================================================
+        # PREDICTION CONFIDENCE
+        # =================================================
 
         confidence = None
+
 
         if hasattr(
             model,
@@ -735,55 +1000,146 @@ def predict():
         ):
 
             probabilities = model.predict_proba(
-                user_data
-            )
+                input_df
+            )[0]
 
             confidence = round(
-                float(probabilities[0].max()) * 100,
+                float(
+                    max(probabilities)
+                ) * 100,
                 2
             )
 
 
-        # ====================================================
-        # CONVERT CLASS TO ADDICTION LEVEL
-        # ====================================================
+        # =================================================
+        # RECOMMENDATIONS
+        # =================================================
 
-        if predicted_class in label_mapping:
+        recommendations = []
 
-            addiction_level = (
-                label_mapping[predicted_class]
+
+        # =================================================
+        # SCREEN TIME
+        # =================================================
+
+        if daily_screen_hours >= 6:
+
+            recommendations.append(
+                "Try reducing daily social media screen time gradually."
+            )
+
+        elif daily_screen_hours >= 4:
+
+            recommendations.append(
+                "Set a daily screen-time limit and follow it consistently."
             )
 
         else:
 
-            addiction_level = {
-
-                0: "Low",
-
-                1: "Moderate",
-
-                2: "High"
-
-            }.get(
-
-                predicted_class,
-
-                "Unknown"
-
+            recommendations.append(
+                "Continue maintaining a balanced social media usage pattern."
             )
 
 
-        # ====================================================
-        # SCORES DICTIONARY
-        # ====================================================
+        # =================================================
+        # SLEEP
+        # =================================================
+
+        if avg_sleep_hours < 7:
+
+            recommendations.append(
+                "Try to maintain at least 7 hours of sleep and reduce late-night screen use."
+            )
+
+
+        # =================================================
+        # ANXIETY
+        # =================================================
+
+        if anxiety >= 15:
+
+            recommendations.append(
+                "Consider relaxation activities such as breathing exercises, exercise, or talking to someone you trust."
+            )
+
+
+        # =================================================
+        # LOW MOOD
+        # =================================================
+
+        if low_mood >= 15:
+
+            recommendations.append(
+                "Maintain regular physical activity and social interaction."
+            )
+
+
+        # =================================================
+        # LIFE SATISFACTION
+        # =================================================
+
+        if life_satisfaction <= 4:
+
+            recommendations.append(
+                "Spend time on activities and relationships that improve your overall wellbeing."
+            )
+
+
+        # =================================================
+        # LONELINESS
+        # =================================================
+
+        if loneliness >= 7:
+
+            recommendations.append(
+                "Try to increase meaningful offline social interaction."
+            )
+
+
+        # =================================================
+        # SELF ESTEEM
+        # =================================================
+
+        if self_esteem <= 4:
+
+            recommendations.append(
+                "Avoid comparing yourself with unrealistic social media content."
+            )
+
+
+        # =================================================
+        # FOMO
+        # =================================================
+
+        if fomo >= 7:
+
+            recommendations.append(
+                "Consider turning off unnecessary notifications and taking short digital breaks."
+            )
+
+
+        # =================================================
+        # SOCIAL COMPARISON
+        # =================================================
+
+        if social_comparison >= 7:
+
+            recommendations.append(
+                "Remember that social media often shows only selected parts of people's lives."
+            )
+
+
+        # =================================================
+        # SCORES FOR RESULT PAGE
+        # =================================================
 
         scores = {
 
             "anxiety_score_0to27":
-                anxiety_score,
+                anxiety,
 
             "low_mood_score_0to27":
-                low_mood_score,
+                low_mood,
 
             "life_satisfaction_1to10":
                 life_satisfaction,
@@ -799,67 +1155,50 @@ def predict():
 
             "social_comparison_1to10":
                 social_comparison
-
         }
 
 
-        # ====================================================
-        # GET PERSONALIZED RECOMMENDATIONS
-        # ====================================================
+        # =================================================
+        # SAVE COMPLETE PREDICTION
+        # =================================================
 
-        recommendations = get_recommendations(
-
-            addiction_level,
-
-            daily_screen_hours,
-
-            avg_sleep_hours,
-
-            physical_activity,
-
-            anxiety_score,
-
-            low_mood_score,
-
-            life_satisfaction,
-
-            loneliness,
-
-            self_esteem,
-
-            fomo,
-
-            social_comparison
-
-        )
+        connection = get_db_connection()
 
 
-        # ====================================================
-        # SAVE PREDICTION TO DATABASE
-        # ====================================================
-
-        conn = sqlite3.connect(
-            DATABASE_PATH
-        )
-
-        cursor = conn.cursor()
-
-
-        cursor.execute("""
-
-            INSERT INTO predictions (
-
-                date_time,
+        connection.execute(
+            """
+            INSERT INTO predictions
+            (
+                user_id,
+                addiction_level,
+                prediction_confidence,
+                daily_screen_hours,
+                avg_sleep_hours,
+                anxiety,
+                low_mood,
+                life_satisfaction,
+                loneliness,
+                self_esteem,
+                fomo,
+                social_comparison,
+                physical_activity
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                current_user.id,
 
                 addiction_level,
+
+                confidence,
 
                 daily_screen_hours,
 
                 avg_sleep_hours,
 
-                anxiety_score,
+                anxiety,
 
-                low_mood_score,
+                low_mood,
 
                 life_satisfaction,
 
@@ -867,367 +1206,463 @@ def predict():
 
                 self_esteem,
 
-                fomo_score,
+                fomo,
 
                 social_comparison,
 
-                physical_activity_days
-
+                physical_activity
             )
-
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-
-        """, (
-
-            datetime.now().strftime(
-                "%Y-%m-%d %H:%M:%S"
-            ),
-
-            addiction_level,
-
-            daily_screen_hours,
-
-            avg_sleep_hours,
-
-            anxiety_score,
-
-            low_mood_score,
-
-            life_satisfaction,
-
-            loneliness,
-
-            self_esteem,
-
-            fomo,
-
-            social_comparison,
-
-            physical_activity
-
-        ))
+        )
 
 
-        conn.commit()
+        connection.commit()
 
-        conn.close()
+        connection.close()
 
 
-        # ====================================================
-        # RESULT PAGE
-        # ====================================================
+        # =================================================
+        # SHOW RESULT PAGE
+        # =================================================
 
         return render_template(
 
             "result.html",
 
-            addiction_level=addiction_level,
+            addiction_level=
+                addiction_level,
 
-            confidence=confidence,
+            confidence=
+                confidence,
 
-            scores=scores,
+            recommendations=
+                recommendations,
 
-            recommendations=recommendations
+            daily_screen_hours=
+                daily_screen_hours,
 
+            avg_sleep_hours=
+                avg_sleep_hours,
+
+            scores=
+                scores
         )
 
+
+    # =====================================================
+    # ERROR HANDLING
+    # =====================================================
 
     except Exception as e:
 
         return f"""
+        <h2>Prediction Error</h2>
 
-        <html>
+        <p>{str(e)}</p>
 
-        <head>
-
-            <title>SMADS - Error</title>
-
-        </head>
-
-        <body>
-
-            <h2>Error occurred</h2>
-
-            <p>{str(e)}</p>
-
-            <br>
-
-            <a href="/">Go back</a>
-
-        </body>
-
-        </html>
-
+        <a href="{url_for('assessment')}">
+            Go Back
+        </a>
         """
 
 
-# ============================================================
+# =========================================================
 # HISTORY PAGE
-# ============================================================
+# =========================================================
 
 @app.route("/history")
+@login_required
 def history():
 
-    conn = sqlite3.connect(
-        DATABASE_PATH
-    )
-
-    conn.row_factory = sqlite3.Row
-
-    cursor = conn.cursor()
+    connection = get_db_connection()
 
 
-    cursor.execute("""
-
-        SELECT *
-
+    predictions = connection.execute(
+        """
+        SELECT
+            id,
+            user_id,
+            addiction_level,
+            prediction_confidence,
+            daily_screen_hours,
+            avg_sleep_hours,
+            anxiety,
+            low_mood,
+            life_satisfaction,
+            loneliness,
+            self_esteem,
+            fomo,
+            social_comparison,
+            physical_activity,
+            created_at
         FROM predictions
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        """,
+        (current_user.id,)
+    ).fetchall()
 
-        ORDER BY id DESC
 
-    """)
-
-
-    predictions = cursor.fetchall()
-
-    conn.close()
+    connection.close()
 
 
     return render_template(
-
         "history.html",
-
         predictions=predictions
-
     )
 
 
-# ============================================================
+# =========================================================
 # PROGRESS PAGE
-# ============================================================
+# =========================================================
 
 @app.route("/progress")
+@login_required
 def progress():
 
-    conn = sqlite3.connect(
-        DATABASE_PATH
-    )
-
-    conn.row_factory = sqlite3.Row
-
-    cursor = conn.cursor()
+    connection = get_db_connection()
 
 
-    cursor.execute("""
+    # =====================================================
+    # GET CURRENT USER'S PREDICTIONS
+    # =====================================================
 
+    predictions = connection.execute(
+        """
         SELECT *
-
         FROM predictions
-
-        ORDER BY id ASC
-
-    """)
-
-
-    predictions = cursor.fetchall()
-
-    conn.close()
+        WHERE user_id = ?
+        ORDER BY created_at ASC
+        """,
+        (current_user.id,)
+    ).fetchall()
 
 
-    # ========================================================
+    connection.close()
+
+
+    # =====================================================
     # DEFAULT VALUES
-    # ========================================================
+    # =====================================================
 
-    message = ""
+    latest_screen_time = 0
 
-    status = "none"
+    previous_screen_time = 0
 
-    previous_level = None
+    latest_sleep = 0
 
-    current_level = None
+    previous_sleep = 0
 
-    previous_screen_time = None
+    screen_time_change = 0
 
-    current_screen_time = None
+    sleep_change = 0
 
-    screen_time_change = None
+    latest_level = "No assessment"
+
+    previous_level = "No assessment"
+
+    level_change = "No previous assessment"
+
+    total_assessments = len(predictions)
 
 
-    # ========================================================
-    # NO PREDICTIONS
-    # ========================================================
+    # =====================================================
+    # GET LATEST ASSESSMENT
+    # =====================================================
 
-    if len(predictions) == 0:
+    if total_assessments >= 1:
 
-        message = (
-            "No prediction data available yet. "
-            "Complete the questionnaire to start tracking your progress."
+        latest_prediction = predictions[-1]
+
+
+        latest_screen_time = (
+            latest_prediction["daily_screen_hours"]
+            or 0
         )
 
-        status = "none"
 
-
-    # ========================================================
-    # ONLY ONE PREDICTION
-    # ========================================================
-
-    elif len(predictions) == 1:
-
-        current = predictions[-1]
-
-        current_level = current[
-            "addiction_level"
-        ]
-
-        current_screen_time = current[
-            "daily_screen_hours"
-        ]
-
-        message = (
-            "This is your first assessment. "
-            "Take another assessment later to track your progress."
+        latest_sleep = (
+            latest_prediction["avg_sleep_hours"]
+            or 0
         )
 
-        status = "first"
+
+        latest_level = (
+            latest_prediction["addiction_level"]
+            or "Unknown"
+        )
 
 
-    # ========================================================
-    # TWO OR MORE PREDICTIONS
-    # ========================================================
+    # =====================================================
+    # GET PREVIOUS ASSESSMENT
+    # =====================================================
 
-    else:
+    if total_assessments >= 2:
 
-        previous = predictions[-2]
-
-        current = predictions[-1]
+        previous_prediction = predictions[-2]
 
 
-        previous_level = previous[
-            "addiction_level"
-        ]
-
-        current_level = current[
-            "addiction_level"
-        ]
+        previous_screen_time = (
+            previous_prediction["daily_screen_hours"]
+            or 0
+        )
 
 
-        previous_screen_time = previous[
-            "daily_screen_hours"
-        ]
-
-        current_screen_time = current[
-            "daily_screen_hours"
-        ]
+        previous_sleep = (
+            previous_prediction["avg_sleep_hours"]
+            or 0
+        )
 
 
-        # ====================================================
-        # LEVEL COMPARISON
-        # ====================================================
+        previous_level = (
+            previous_prediction["addiction_level"]
+            or "Unknown"
+        )
 
-        level_value = {
 
-            "Low": 1,
+        # =================================================
+        # SCREEN TIME CHANGE
+        # =================================================
 
-            "Moderate": 2,
+        screen_time_change = round(
+            latest_screen_time -
+            previous_screen_time,
+            2
+        )
 
-            "High": 3
 
+        # =================================================
+        # SLEEP CHANGE
+        # =================================================
+
+        sleep_change = round(
+            latest_sleep -
+            previous_sleep,
+            2
+        )
+
+
+        # =================================================
+        # LEVEL CHANGE
+        # =================================================
+
+        level_order = {
+
+            "Low": 0,
+
+            "Moderate": 1,
+
+            "High": 2
         }
 
 
-        previous_value = level_value.get(
+        if (
+            latest_level in level_order
+            and previous_level in level_order
+        ):
 
-            previous_level,
+            level_difference = (
+                level_order[latest_level]
+                -
+                level_order[previous_level]
+            )
 
-            0
 
+            if level_difference < 0:
+
+                level_change = "Improved"
+
+            elif level_difference > 0:
+
+                level_change = "Increased"
+
+            else:
+
+                level_change = "No change"
+
+
+    # =====================================================
+    # SCREEN TIME STATUS
+    # =====================================================
+
+    if screen_time_change < 0:
+
+        screen_time_status = "Reduced"
+
+    elif screen_time_change > 0:
+
+        screen_time_status = "Increased"
+
+    else:
+
+        screen_time_status = "No change"
+
+
+    # =====================================================
+    # SLEEP STATUS
+    # =====================================================
+
+    if sleep_change > 0:
+
+        sleep_status = "Improved"
+
+    elif sleep_change < 0:
+
+        sleep_status = "Reduced"
+
+    else:
+
+        sleep_status = "No change"
+
+
+    # =====================================================
+    # SCREEN TIME IMPROVEMENT PERCENTAGE
+    # =====================================================
+
+    screen_time_improvement = 0
+
+
+    if previous_screen_time > 0:
+
+        screen_time_improvement = round(
+            (
+                (
+                    previous_screen_time -
+                    latest_screen_time
+                )
+                /
+                previous_screen_time
+            )
+            * 100,
+            2
         )
 
 
-        current_value = level_value.get(
+    # =====================================================
+    # SLEEP IMPROVEMENT PERCENTAGE
+    # =====================================================
 
-            current_level,
+    sleep_improvement = 0
 
-            0
 
+    if previous_sleep > 0:
+
+        sleep_improvement = round(
+            (
+                (
+                    latest_sleep -
+                    previous_sleep
+                )
+                /
+                previous_sleep
+            )
+            * 100,
+            2
         )
 
 
-        if current_value < previous_value:
+    # =====================================================
+    # PROGRESS MESSAGE
+    # =====================================================
 
-            message = (
-                "Your latest predicted addiction level is lower "
-                "than your previous assessment."
+    if total_assessments == 0:
+
+        progress_message = (
+            "Complete your first assessment to start "
+            "tracking your digital wellbeing."
+        )
+
+    elif total_assessments == 1:
+
+        progress_message = (
+            "Complete another assessment later to "
+            "compare your progress."
+        )
+
+    else:
+
+        if screen_time_change < 0:
+
+            progress_message = (
+                "Your recent assessment shows a reduction "
+                "in daily screen time."
             )
 
-            status = "improved"
+        elif screen_time_change > 0:
 
-
-        elif current_value > previous_value:
-
-            message = (
-                "Your latest predicted addiction level is higher "
-                "than your previous assessment. "
-                "Review the digital wellbeing recommendations."
+            progress_message = (
+                "Your recent assessment shows an increase "
+                "in daily screen time."
             )
-
-            status = "increased"
-
 
         else:
 
-            message = (
-                "Your predicted addiction level is unchanged. "
-                "Continue working on your digital wellbeing habits."
+            progress_message = (
+                "Your daily screen time has remained the same "
+                "between the latest assessments."
             )
 
-            status = "same"
 
-
-        # ====================================================
-        # SCREEN TIME COMPARISON
-        # ====================================================
-
-        screen_time_change = round(
-
-            previous_screen_time -
-            current_screen_time,
-
-            2
-
-        )
-
-
-    # ========================================================
-    # RENDER PROGRESS PAGE
-    # ========================================================
+    # =====================================================
+    # SEND DATA TO PROGRESS PAGE
+    # =====================================================
 
     return render_template(
 
         "progress.html",
 
-        predictions=predictions,
+        predictions=
+            predictions,
 
-        message=message,
+        total_assessments=
+            total_assessments,
 
-        status=status,
+        latest_screen_time=
+            latest_screen_time,
 
-        previous_level=previous_level,
+        previous_screen_time=
+            previous_screen_time,
 
-        current_level=current_level,
+        screen_time_change=
+            screen_time_change,
 
-        previous_screen_time=previous_screen_time,
+        screen_time_status=
+            screen_time_status,
 
-        current_screen_time=current_screen_time,
+        screen_time_improvement=
+            screen_time_improvement,
 
-        screen_time_change=screen_time_change
+        latest_sleep=
+            latest_sleep,
 
+        previous_sleep=
+            previous_sleep,
+
+        sleep_change=
+            sleep_change,
+
+        sleep_status=
+            sleep_status,
+
+        sleep_improvement=
+            sleep_improvement,
+
+        latest_level=
+            latest_level,
+
+        previous_level=
+            previous_level,
+
+        level_change=
+            level_change,
+
+        progress_message=
+            progress_message
     )
 
 
-# ============================================================
+# =========================================================
 # RUN APPLICATION
-# ============================================================
+# =========================================================
 
 if __name__ == "__main__":
 
