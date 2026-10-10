@@ -1324,6 +1324,9 @@ def progress():
 
     # =====================================================
     # GET CURRENT USER'S PREDICTIONS
+    #
+    # IMPORTANT:
+    # DESC means newest record comes first.
     # =====================================================
 
     predictions = connection.execute(
@@ -1331,7 +1334,7 @@ def progress():
         SELECT *
         FROM predictions
         WHERE user_id = ?
-        ORDER BY created_at ASC
+        ORDER BY created_at DESC, id DESC
         """,
         (current_user.id,)
     ).fetchall()
@@ -1371,7 +1374,7 @@ def progress():
 
     if total_assessments >= 1:
 
-        latest_prediction = predictions[-1]
+        latest_prediction = predictions[0]
 
 
         latest_screen_time = (
@@ -1398,7 +1401,7 @@ def progress():
 
     if total_assessments >= 2:
 
-        previous_prediction = predictions[-2]
+        previous_prediction = predictions[1]
 
 
         previous_screen_time = (

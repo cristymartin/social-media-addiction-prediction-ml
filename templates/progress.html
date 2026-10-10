@@ -1,11 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>SMADS - Progress</title>
+
 
     <style>
 
@@ -19,17 +23,37 @@
             box-sizing: border-box;
         }
 
+
         html {
             scroll-behavior: smooth;
         }
 
+
         body {
-            font-family: Arial, Helvetica, sans-serif;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
             background:
-                radial-gradient(circle at 80% 10%, rgba(99, 102, 241, 0.15), transparent 28%),
-                radial-gradient(circle at 10% 70%, rgba(79, 70, 229, 0.10), transparent 30%),
+
+                radial-gradient(
+                    circle at 80% 10%,
+                    rgba(99, 102, 241, 0.15),
+                    transparent 28%
+                ),
+
+                radial-gradient(
+                    circle at 10% 70%,
+                    rgba(79, 70, 229, 0.10),
+                    transparent 30%
+                ),
+
                 #071426;
+
             color: #f8fafc;
+
             min-height: 100vh;
         }
 
@@ -39,17 +63,28 @@
         ===================================================== */
 
         nav {
+
             height: 92px;
+
             padding: 0 6%;
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
 
-            background: rgba(5, 17, 35, 0.94);
-            border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+            background:
+                rgba(5, 17, 35, 0.94);
+
+            border-bottom:
+                1px solid
+                rgba(148, 163, 184, 0.12);
 
             position: sticky;
+
             top: 0;
+
             z-index: 1000;
 
             backdrop-filter: blur(16px);
@@ -59,18 +94,23 @@
         /* LOGO */
 
         .logo {
+
             font-size: 30px;
+
             font-weight: 800;
+
             letter-spacing: 1px;
 
-            background: linear-gradient(
-                90deg,
-                #60a5fa,
-                #818cf8,
-                #a78bfa
-            );
+            background:
+                linear-gradient(
+                    90deg,
+                    #60a5fa,
+                    #818cf8,
+                    #a78bfa
+                );
 
             -webkit-background-clip: text;
+
             -webkit-text-fill-color: transparent;
         }
 
@@ -78,40 +118,57 @@
         /* NAV LINKS */
 
         .nav-links {
+
             display: flex;
+
             align-items: center;
+
             gap: 10px;
         }
 
+
         .nav-links a {
+
             color: #94a3b8;
+
             text-decoration: none;
 
             padding: 13px 18px;
+
             border-radius: 12px;
 
             font-size: 15px;
+
             font-weight: 600;
 
             transition: all 0.3s ease;
         }
 
+
         .nav-links a:hover {
+
             color: white;
-            background: rgba(99, 102, 241, 0.12);
+
+            background:
+                rgba(99, 102, 241, 0.12);
         }
 
+
         .nav-links a.active {
+
             color: white;
 
-            background: linear-gradient(
-                135deg,
-                rgba(99, 102, 241, 0.25),
-                rgba(79, 70, 229, 0.12)
-            );
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(99, 102, 241, 0.25),
+                    rgba(79, 70, 229, 0.12)
+                );
 
             box-shadow:
-                inset 0 0 0 1px rgba(129, 140, 248, 0.15);
+                inset
+                0 0 0 1px
+                rgba(129, 140, 248, 0.15);
         }
 
 
@@ -120,9 +177,13 @@
         ===================================================== */
 
         .container {
+
             width: 90%;
+
             max-width: 1280px;
+
             margin: 0 auto;
+
             padding: 65px 0 80px;
         }
 
@@ -132,70 +193,104 @@
         ===================================================== */
 
         .page-header {
+
             text-align: center;
+
             margin-bottom: 45px;
         }
 
+
         .badge {
+
             display: inline-flex;
+
             align-items: center;
+
             gap: 9px;
 
             padding: 9px 18px;
+
             margin-bottom: 22px;
 
-            border: 1px solid rgba(129, 140, 248, 0.25);
+            border:
+                1px solid
+                rgba(129, 140, 248, 0.25);
+
             border-radius: 50px;
 
-            background: rgba(99, 102, 241, 0.08);
+            background:
+                rgba(99, 102, 241, 0.08);
 
             color: #a5b4fc;
 
             font-size: 12px;
+
             font-weight: 700;
 
             letter-spacing: 1.5px;
+
             text-transform: uppercase;
         }
 
+
         .badge-dot {
+
             width: 7px;
+
             height: 7px;
+
             border-radius: 50%;
+
             background: #818cf8;
 
-            box-shadow: 0 0 12px #818cf8;
+            box-shadow:
+                0 0 12px #818cf8;
         }
 
+
         .page-header h1 {
-            font-size: clamp(38px, 5vw, 62px);
+
+            font-size:
+                clamp(38px, 5vw, 62px);
+
             line-height: 1.05;
 
             margin-bottom: 18px;
 
             font-weight: 800;
+
             letter-spacing: -1.5px;
 
             color: #f8fafc;
         }
 
+
         .page-header h1 span {
-            background: linear-gradient(
-                90deg,
-                #818cf8,
-                #a78bfa,
-                #60a5fa
-            );
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #818cf8,
+                    #a78bfa,
+                    #60a5fa
+                );
 
             -webkit-background-clip: text;
+
             -webkit-text-fill-color: transparent;
         }
 
+
         .subtitle {
+
             color: #94a3b8;
+
             font-size: 17px;
+
             line-height: 1.7;
+
             max-width: 700px;
+
             margin: auto;
         }
 
@@ -205,113 +300,121 @@
         ===================================================== */
 
         .status-box {
+
             position: relative;
 
             padding: 27px 30px;
+
             margin-bottom: 35px;
 
             border-radius: 20px;
 
             background:
+
                 linear-gradient(
                     135deg,
                     rgba(99, 102, 241, 0.14),
                     rgba(15, 23, 42, 0.75)
                 );
 
-            border: 1px solid rgba(129, 140, 248, 0.18);
+            border:
+                1px solid
+                rgba(129, 140, 248, 0.18);
 
             box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.20);
+                0 20px 60px
+                rgba(0, 0, 0, 0.20);
 
             overflow: hidden;
         }
 
+
         .status-box::before {
+
             content: "";
 
             position: absolute;
+
             width: 180px;
+
             height: 180px;
 
             right: -70px;
+
             top: -80px;
 
             border-radius: 50%;
 
-            background: rgba(99, 102, 241, 0.12);
+            background:
+                rgba(99, 102, 241, 0.12);
         }
 
+
         .status-content {
+
             position: relative;
+
             display: flex;
+
             align-items: center;
+
             gap: 20px;
         }
 
+
         .status-icon {
+
             width: 54px;
+
             height: 54px;
 
             flex-shrink: 0;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             border-radius: 15px;
 
-            background: rgba(99, 102, 241, 0.15);
+            background:
+                rgba(99, 102, 241, 0.15);
 
             font-size: 25px;
         }
+
 
         .status-text {
             flex: 1;
         }
 
+
         .status-label {
+
             color: #818cf8;
+
             font-size: 11px;
+
             font-weight: 800;
+
             letter-spacing: 1.4px;
+
             text-transform: uppercase;
 
             margin-bottom: 6px;
         }
 
+
         .status-message {
+
             color: #f8fafc;
+
             font-size: 17px;
+
             font-weight: 600;
+
             line-height: 1.5;
-        }
-
-
-        /* STATUS COLORS */
-
-        .status-box.increased {
-            border-color: rgba(248, 113, 113, 0.25);
-        }
-
-        .status-box.increased .status-icon {
-            background: rgba(239, 68, 68, 0.12);
-        }
-
-        .status-box.improved {
-            border-color: rgba(74, 222, 128, 0.25);
-        }
-
-        .status-box.improved .status-icon {
-            background: rgba(34, 197, 94, 0.12);
-        }
-
-        .status-box.same {
-            border-color: rgba(251, 191, 36, 0.25);
-        }
-
-        .status-box.first {
-            border-color: rgba(96, 165, 250, 0.25);
         }
 
 
@@ -320,20 +423,29 @@
         ===================================================== */
 
         .section-heading {
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
 
             margin: 45px 0 20px;
         }
 
+
         .section-heading h2 {
+
             font-size: 22px;
+
             color: #f8fafc;
         }
 
+
         .section-heading p {
+
             color: #64748b;
+
             font-size: 13px;
         }
 
@@ -343,15 +455,21 @@
         ===================================================== */
 
         .cards {
+
             display: grid;
 
             grid-template-columns:
-                repeat(auto-fit, minmax(230px, 1fr));
+                repeat(
+                    auto-fit,
+                    minmax(230px, 1fr)
+                );
 
             gap: 20px;
         }
 
+
         .card {
+
             position: relative;
 
             padding: 27px;
@@ -361,16 +479,20 @@
             border-radius: 20px;
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(30, 41, 59, 0.92),
                     rgba(15, 23, 42, 0.92)
                 );
 
-            border: 1px solid rgba(148, 163, 184, 0.10);
+            border:
+                1px solid
+                rgba(148, 163, 184, 0.10);
 
             box-shadow:
-                0 15px 45px rgba(0, 0, 0, 0.20);
+                0 15px 45px
+                rgba(0, 0, 0, 0.20);
 
             overflow: hidden;
 
@@ -380,66 +502,91 @@
                 box-shadow 0.3s ease;
         }
 
+
         .card::after {
+
             content: "";
 
             position: absolute;
 
             width: 100px;
+
             height: 100px;
 
             right: -45px;
+
             top: -45px;
 
             border-radius: 50%;
 
-            background: rgba(99, 102, 241, 0.07);
+            background:
+                rgba(99, 102, 241, 0.07);
         }
 
+
         .card:hover {
-            transform: translateY(-6px);
+
+            transform:
+                translateY(-6px);
 
             border-color:
                 rgba(129, 140, 248, 0.30);
 
             box-shadow:
-                0 20px 55px rgba(0, 0, 0, 0.30);
+                0 20px 55px
+                rgba(0, 0, 0, 0.30);
         }
 
+
         .card-top {
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
 
             margin-bottom: 25px;
         }
 
+
         .card-icon {
+
             width: 46px;
+
             height: 46px;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             border-radius: 13px;
 
-            background: rgba(99, 102, 241, 0.13);
+            background:
+                rgba(99, 102, 241, 0.13);
 
             font-size: 22px;
         }
 
+
         .card-label {
+
             color: #94a3b8;
 
             font-size: 13px;
+
             font-weight: 600;
 
             line-height: 1.4;
         }
 
+
         .card-value {
+
             font-size: 32px;
+
             font-weight: 800;
 
             color: #f8fafc;
@@ -447,21 +594,28 @@
             margin-bottom: 6px;
         }
 
+
         .card-subtitle {
+
             color: #64748b;
+
             font-size: 12px;
         }
 
 
-        /* LEVEL COLORS */
+        /* =====================================================
+           LEVEL COLORS
+        ===================================================== */
 
         .level-high {
             color: #fb7185;
         }
 
+
         .level-moderate {
             color: #fbbf24;
         }
+
 
         .level-low {
             color: #4ade80;
@@ -473,6 +627,7 @@
         ===================================================== */
 
         .comparison-panel {
+
             margin-top: 25px;
 
             padding: 32px;
@@ -480,45 +635,64 @@
             border-radius: 22px;
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(15, 23, 42, 0.98),
                     rgba(30, 41, 59, 0.90)
                 );
 
-            border: 1px solid rgba(148, 163, 184, 0.10);
+            border:
+                1px solid
+                rgba(148, 163, 184, 0.10);
 
             box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.22);
+                0 20px 60px
+                rgba(0, 0, 0, 0.22);
         }
 
+
         .comparison-header {
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: flex-start;
 
             margin-bottom: 30px;
         }
 
+
         .comparison-header h2 {
+
             font-size: 21px;
+
             margin-bottom: 7px;
         }
 
+
         .comparison-header p {
+
             color: #64748b;
+
             font-size: 13px;
         }
 
+
         .trend-badge {
+
             padding: 8px 13px;
 
             border-radius: 30px;
 
             font-size: 12px;
+
             font-weight: 700;
 
-            background: rgba(99, 102, 241, 0.12);
+            background:
+                rgba(99, 102, 241, 0.12);
+
             color: #a5b4fc;
         }
 
@@ -528,6 +702,7 @@
         ===================================================== */
 
         .time-comparison {
+
             display: grid;
 
             grid-template-columns: 1fr 1fr;
@@ -535,30 +710,42 @@
             gap: 25px;
         }
 
+
         .time-box {
+
             padding: 22px;
 
             border-radius: 16px;
 
-            background: rgba(15, 23, 42, 0.65);
+            background:
+                rgba(15, 23, 42, 0.65);
 
-            border: 1px solid rgba(148, 163, 184, 0.08);
+            border:
+                1px solid
+                rgba(148, 163, 184, 0.08);
         }
 
+
         .time-title {
+
             display: flex;
+
             justify-content: space-between;
 
             color: #94a3b8;
 
             font-size: 13px;
+
             font-weight: 600;
 
             margin-bottom: 13px;
         }
 
+
         .time-number {
+
             font-size: 29px;
+
             font-weight: 800;
 
             color: white;
@@ -566,7 +753,9 @@
             margin-bottom: 13px;
         }
 
+
         .time-bar {
+
             height: 8px;
 
             border-radius: 20px;
@@ -576,12 +765,15 @@
             overflow: hidden;
         }
 
+
         .time-fill {
+
             height: 100%;
 
             border-radius: 20px;
 
             background:
+
                 linear-gradient(
                     90deg,
                     #6366f1,
@@ -589,12 +781,32 @@
                 );
         }
 
+
+        /* =====================================================
+           DYNAMIC SCREEN TIME BARS
+        ===================================================== */
+
         .previous-fill {
-            width: 35%;
+
+            width:
+                min(
+                    100%,
+                    calc(
+                        {{ previous_screen_time }} / 8 * 100%
+                    )
+                );
         }
 
+
         .current-fill {
-            width: 70%;
+
+            width:
+                min(
+                    100%,
+                    calc(
+                        {{ latest_screen_time }} / 8 * 100%
+                    )
+                );
         }
 
 
@@ -603,43 +815,59 @@
         ===================================================== */
 
         .progress-message {
+
             margin-top: 25px;
 
             padding: 24px;
 
             border-radius: 17px;
 
-            background: rgba(99, 102, 241, 0.07);
+            background:
+                rgba(99, 102, 241, 0.07);
 
-            border: 1px solid rgba(129, 140, 248, 0.12);
+            border:
+                1px solid
+                rgba(129, 140, 248, 0.12);
 
             text-align: center;
         }
 
+
         .progress-message .emoji {
+
             font-size: 28px;
+
             margin-bottom: 10px;
         }
 
+
         .progress-message h3 {
+
             font-size: 19px;
+
             margin-bottom: 8px;
         }
 
+
         .progress-message p {
+
             color: #94a3b8;
 
             font-size: 14px;
+
             line-height: 1.7;
         }
+
 
         .positive {
             color: #4ade80;
         }
 
+
         .negative {
             color: #fb7185;
         }
+
 
         .neutral {
             color: #fbbf24;
@@ -651,6 +879,7 @@
         ===================================================== */
 
         .wellbeing {
+
             position: relative;
 
             margin-top: 35px;
@@ -662,36 +891,49 @@
             border-radius: 24px;
 
             background:
+
                 radial-gradient(
                     circle at 50% 0%,
                     rgba(99, 102, 241, 0.18),
                     transparent 50%
                 ),
+
                 linear-gradient(
                     145deg,
                     #172554,
                     #0f172a
                 );
 
-            border: 1px solid rgba(129, 140, 248, 0.15);
+            border:
+                1px solid
+                rgba(129, 140, 248, 0.15);
 
             overflow: hidden;
 
             box-shadow:
-                0 25px 70px rgba(0, 0, 0, 0.25);
+                0 25px 70px
+                rgba(0, 0, 0, 0.25);
         }
 
+
         .wellbeing-icon {
+
             font-size: 42px;
+
             margin-bottom: 17px;
         }
 
+
         .wellbeing h2 {
+
             font-size: 27px;
+
             margin-bottom: 15px;
         }
 
+
         .wellbeing p {
+
             max-width: 750px;
 
             margin: 0 auto 12px;
@@ -699,10 +941,13 @@
             color: #a8b4ca;
 
             font-size: 15px;
+
             line-height: 1.8;
         }
 
+
         .wellbeing strong {
+
             color: #dbeafe;
         }
 
@@ -712,8 +957,11 @@
         ===================================================== */
 
         .buttons {
+
             display: flex;
+
             justify-content: center;
+
             gap: 14px;
 
             margin-top: 32px;
@@ -721,10 +969,15 @@
             flex-wrap: wrap;
         }
 
+
         .button {
+
             display: inline-flex;
+
             align-items: center;
+
             justify-content: center;
+
             gap: 9px;
 
             min-width: 190px;
@@ -736,19 +989,25 @@
             text-decoration: none;
 
             font-size: 14px;
+
             font-weight: 700;
 
             color: white;
 
             background: #172033;
 
-            border: 1px solid rgba(148, 163, 184, 0.12);
+            border:
+                1px solid
+                rgba(148, 163, 184, 0.12);
 
             transition: all 0.3s ease;
         }
 
+
         .button:hover {
-            transform: translateY(-3px);
+
+            transform:
+                translateY(-3px);
 
             background: #1e293b;
 
@@ -756,8 +1015,11 @@
                 rgba(129, 140, 248, 0.30);
         }
 
+
         .button.primary {
+
             background:
+
                 linear-gradient(
                     135deg,
                     #6366f1,
@@ -767,14 +1029,19 @@
             border: none;
 
             box-shadow:
-                0 10px 30px rgba(99, 102, 241, 0.25);
+                0 10px 30px
+                rgba(99, 102, 241, 0.25);
         }
 
-        .button.primary:hover {
-            box-shadow:
-                0 15px 35px rgba(99, 102, 241, 0.35);
 
-            transform: translateY(-3px);
+        .button.primary:hover {
+
+            box-shadow:
+                0 15px 35px
+                rgba(99, 102, 241, 0.35);
+
+            transform:
+                translateY(-3px);
         }
 
 
@@ -783,6 +1050,7 @@
         ===================================================== */
 
         .footer {
+
             text-align: center;
 
             margin-top: 50px;
@@ -800,6 +1068,7 @@
         @media (max-width: 800px) {
 
             nav {
+
                 height: auto;
 
                 padding: 18px 5%;
@@ -809,7 +1078,9 @@
                 gap: 15px;
             }
 
+
             .nav-links {
+
                 width: 100%;
 
                 justify-content: center;
@@ -817,30 +1088,45 @@
                 flex-wrap: wrap;
             }
 
+
             .nav-links a {
+
                 padding: 9px 12px;
+
                 font-size: 13px;
             }
 
+
             .container {
+
                 width: 92%;
+
                 padding-top: 45px;
             }
 
+
             .page-header h1 {
+
                 font-size: 40px;
             }
 
+
             .status-content {
+
                 align-items: flex-start;
             }
 
+
             .time-comparison {
+
                 grid-template-columns: 1fr;
             }
 
+
             .comparison-header {
+
                 flex-direction: column;
+
                 gap: 15px;
             }
         }
@@ -849,46 +1135,67 @@
         @media (max-width: 500px) {
 
             .logo {
+
                 font-size: 26px;
             }
 
+
             .nav-links {
+
                 gap: 3px;
             }
 
+
             .page-header h1 {
+
                 font-size: 34px;
             }
 
+
             .subtitle {
+
                 font-size: 14px;
             }
 
+
             .status-box {
+
                 padding: 22px;
             }
 
+
             .status-content {
+
                 flex-direction: column;
             }
 
+
             .cards {
+
                 grid-template-columns: 1fr;
             }
 
+
             .comparison-panel {
+
                 padding: 22px;
             }
 
+
             .wellbeing {
+
                 padding: 35px 22px;
             }
 
+
             .wellbeing h2 {
+
                 font-size: 23px;
             }
 
+
             .button {
+
                 width: 100%;
             }
         }
@@ -918,13 +1225,16 @@
             Home
         </a>
 
-        <a href="/">
+
+        <a href="/assessment">
             Assessment
         </a>
+
 
         <a href="/history">
             History
         </a>
+
 
         <a href="/progress" class="active">
             Progress
@@ -933,7 +1243,6 @@
     </div>
 
 </nav>
-
 
 
 <!-- =========================================================
@@ -950,29 +1259,38 @@
     <div class="page-header">
 
         <div class="badge">
+
             <span class="badge-dot"></span>
+
             AI-Powered Digital Wellbeing
+
         </div>
 
+
         <h1>
-            Your <span>Digital Progress</span>
+
+            Your
+            <span>Digital Progress</span>
+
         </h1>
 
+
         <p class="subtitle">
+
             Track changes in your digital habits, understand your
             addiction level, and monitor your journey toward healthier
             screen-time habits.
+
         </p>
 
     </div>
-
 
 
     <!-- =====================================================
          STATUS MESSAGE
     ====================================================== -->
 
-    <div class="status-box {{ status }}">
+    <div class="status-box">
 
         <div class="status-content">
 
@@ -980,14 +1298,18 @@
                 ✨
             </div>
 
+
             <div class="status-text">
 
                 <div class="status-label">
                     Latest AI Insight
                 </div>
 
+
                 <div class="status-message">
-                    {{ message }}
+
+                    {{ progress_message }}
+
                 </div>
 
             </div>
@@ -995,7 +1317,6 @@
         </div>
 
     </div>
-
 
 
     {% if predictions %}
@@ -1008,6 +1329,7 @@
     <div class="section-heading">
 
         <div>
+
             <h2>
                 Progress Overview
             </h2>
@@ -1015,10 +1337,10 @@
             <p>
                 Comparison with your previous assessment
             </p>
+
         </div>
 
     </div>
-
 
 
     <!-- =====================================================
@@ -1028,9 +1350,11 @@
     <div class="cards">
 
 
-        {% if previous_level %}
+        <!-- =================================================
+             PREVIOUS LEVEL
+        ================================================== -->
 
-        <!-- PREVIOUS LEVEL -->
+        {% if total_assessments >= 2 %}
 
         <div class="card">
 
@@ -1046,22 +1370,34 @@
 
             </div>
 
+
             <div class="card-value
+
                 {% if previous_level|lower == 'high' %}
+
                     level-high
+
                 {% elif previous_level|lower == 'moderate' %}
+
                     level-moderate
+
                 {% else %}
+
                     level-low
+
                 {% endif %}
+
             ">
 
                 {{ previous_level }}
 
             </div>
 
+
             <div class="card-subtitle">
+
                 Previous addiction level
+
             </div>
 
         </div>
@@ -1069,8 +1405,9 @@
         {% endif %}
 
 
-
-        <!-- CURRENT LEVEL -->
+        <!-- =================================================
+             LATEST LEVEL
+        ================================================== -->
 
         <div class="card">
 
@@ -1086,31 +1423,44 @@
 
             </div>
 
+
             <div class="card-value
-                {% if current_level|lower == 'high' %}
+
+                {% if latest_level|lower == 'high' %}
+
                     level-high
-                {% elif current_level|lower == 'moderate' %}
+
+                {% elif latest_level|lower == 'moderate' %}
+
                     level-moderate
+
                 {% else %}
+
                     level-low
+
                 {% endif %}
+
             ">
 
-                {{ current_level }}
+                {{ latest_level }}
 
             </div>
 
+
             <div class="card-subtitle">
+
                 Current addiction level
+
             </div>
 
         </div>
 
 
+        <!-- =================================================
+             PREVIOUS SCREEN TIME
+        ================================================== -->
 
-        <!-- PREVIOUS SCREEN TIME -->
-
-        {% if previous_screen_time is not none %}
+        {% if total_assessments >= 2 %}
 
         <div class="card">
 
@@ -1126,15 +1476,24 @@
 
             </div>
 
+
             <div class="card-value">
+
                 {{ previous_screen_time }}
+
                 <span style="font-size:16px;color:#64748b;">
+
                     hrs
+
                 </span>
+
             </div>
 
+
             <div class="card-subtitle">
+
                 Previous screen time
+
             </div>
 
         </div>
@@ -1142,10 +1501,9 @@
         {% endif %}
 
 
-
-        <!-- CURRENT SCREEN TIME -->
-
-        {% if current_screen_time is not none %}
+        <!-- =================================================
+             LATEST SCREEN TIME
+        ================================================== -->
 
         <div class="card">
 
@@ -1161,36 +1519,43 @@
 
             </div>
 
+
             <div class="card-value">
-                {{ current_screen_time }}
+
+                {{ latest_screen_time }}
+
                 <span style="font-size:16px;color:#64748b;">
+
                     hrs
+
                 </span>
+
             </div>
 
+
             <div class="card-subtitle">
+
                 Current screen time
+
             </div>
 
         </div>
-
-        {% endif %}
 
 
     </div>
 
 
-
     <!-- =====================================================
-         SCREEN TIME COMPARISON
+         SCREEN TIME ANALYSIS
     ====================================================== -->
 
-    {% if previous_screen_time is not none
-       and current_screen_time is not none %}
+    {% if total_assessments >= 2 %}
+
 
     <div class="section-heading">
 
         <div>
+
             <h2>
                 Screen Time Analysis
             </h2>
@@ -1198,12 +1563,18 @@
             <p>
                 See how your screen time has changed
             </p>
+
         </div>
 
     </div>
 
 
     <div class="comparison-panel">
+
+
+        <!-- =================================================
+             COMPARISON HEADER
+        ================================================== -->
 
         <div class="comparison-header">
 
@@ -1219,17 +1590,26 @@
 
             </div>
 
+
             <div class="trend-badge">
+
                 📈 Progress Tracking
+
             </div>
 
         </div>
 
 
+        <!-- =================================================
+             TIME COMPARISON
+        ================================================== -->
+
         <div class="time-comparison">
 
 
-            <!-- PREVIOUS -->
+            <!-- =================================================
+                 PREVIOUS
+            ================================================== -->
 
             <div class="time-box">
 
@@ -1245,9 +1625,13 @@
 
                 </div>
 
+
                 <div class="time-number">
+
                     {{ previous_screen_time }} hrs
+
                 </div>
+
 
                 <div class="time-bar">
 
@@ -1258,8 +1642,9 @@
             </div>
 
 
-
-            <!-- CURRENT -->
+            <!-- =================================================
+                 CURRENT
+            ================================================== -->
 
             <div class="time-box">
 
@@ -1275,9 +1660,13 @@
 
                 </div>
 
+
                 <div class="time-number">
-                    {{ current_screen_time }} hrs
+
+                    {{ latest_screen_time }} hrs
+
                 </div>
+
 
                 <div class="time-bar">
 
@@ -1291,86 +1680,111 @@
         </div>
 
 
-
         <!-- =================================================
              CHANGE MESSAGE
         ================================================== -->
 
-        {% if screen_time_change is not none %}
-
         <div class="progress-message">
 
 
-            {% if screen_time_change > 0 %}
+            {% if screen_time_change < 0 %}
+
 
                 <div class="emoji">
                     🎉
                 </div>
 
+
                 <h3 class="positive">
+
                     Great Progress!
+
                 </h3>
 
+
                 <p>
+
                     Your screen time decreased by
+
                     <strong>
-                        {{ screen_time_change }} hours
+
+                        {{ screen_time_change|abs }} hours
+
                     </strong>.
+
                     Keep maintaining your healthy digital habits.
+
                 </p>
 
 
-            {% elif screen_time_change < 0 %}
+            {% elif screen_time_change > 0 %}
+
 
                 <div class="emoji">
                     ⚠️
                 </div>
 
+
                 <h3 class="negative">
+
                     Screen Time Increased
+
                 </h3>
 
+
                 <p>
+
                     Your screen time increased by
+
                     <strong>
-                        {{ screen_time_change|abs }} hours
+
+                        {{ screen_time_change }} hours
+
                     </strong>.
+
                     Consider setting daily screen-time limits and
                     taking regular digital breaks.
+
                 </p>
 
 
             {% else %}
 
+
                 <div class="emoji">
                     ➖
                 </div>
 
+
                 <h3 class="neutral">
+
                     Screen Time Stayed the Same
+
                 </h3>
 
+
                 <p>
+
                     Your screen time has not changed.
                     Small improvements over time can help build
                     healthier digital habits.
+
                 </p>
+
 
             {% endif %}
 
 
         </div>
 
-        {% endif %}
-
 
     </div>
 
-    {% endif %}
-
 
     {% endif %}
 
+
+    {% endif %}
 
 
     <!-- =====================================================
@@ -1383,26 +1797,34 @@
             🌱
         </div>
 
+
         <h2>
             Your Digital Wellbeing Matters
         </h2>
 
+
         <p>
+
             Building healthier digital habits is a gradual process.
             Use your progress insights to understand your screen-time
             patterns, take regular breaks, and maintain a balanced
             digital routine.
+
         </p>
 
+
         <p>
+
             <strong>
+
                 Small improvements every day can lead to healthier
                 digital habits over time.
+
             </strong>
+
         </p>
 
     </div>
-
 
 
     <!-- =====================================================
@@ -1411,18 +1833,25 @@
 
     <div class="buttons">
 
+
         <a href="/history" class="button">
+
             📋
+
             View Full History
+
         </a>
 
-        <a href="/" class="button primary">
+
+        <a href="/assessment" class="button primary">
+
             📝
+
             Take New Assessment
+
         </a>
 
     </div>
-
 
 
     <!-- =====================================================
